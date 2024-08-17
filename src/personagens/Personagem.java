@@ -1,3 +1,5 @@
+import java.util.Random;
+
 package personagens;
 
 public abstract class Personagem {
@@ -5,6 +7,7 @@ public abstract class Personagem {
     private int defesa;
     private int ataque;
     private String nome;
+    private bool visivel;
 
     public Personagem(int vida, int defesa, int ataque, String nome) {
         this.saude = vida;
@@ -46,10 +49,27 @@ public abstract class Personagem {
     }
 
     public void atacar(Personagem alvo) {
-        int dano = this.ataque - alvo.getDefesa();
+        int dano = (this.ataque + new Random().nextInt(10)) - alvo.defender();
         if (dano < 0) {
-            dano = 0;
+            tomarDano(-dano);
         }
-        alvo.setSaude(alvo.getSaude() - dano);
+        else {
+            alvo.tomarDano(dano);
+        }
     }
+
+    public int defender() {
+        int defesa = this.defesa + new Random().nextInt(5);
+        return defesa;
+    } 
+
+    public boolean tomarDano(int dano) {
+        this.saude -= dano;
+        if this.saude <= 0 {
+            return false;
+        }
+        return true;
+    }
+
+    public abstract void morrer();
 }
