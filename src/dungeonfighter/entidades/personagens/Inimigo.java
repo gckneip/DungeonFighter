@@ -1,3 +1,5 @@
+package entidades.personagens;
+
 public abstract class Inimigo extends Personagem{
     private Item espolio;
 

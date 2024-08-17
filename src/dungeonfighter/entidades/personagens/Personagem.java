@@ -1,19 +1,21 @@
+package entidades.personagens;
+
+import entidades.Entidade;
 import java.util.Random;
+import javax.swing.ImageIcon;
 
-package personagens;
+public abstract class Personagem extends Entidade {
 
-public abstract class Personagem {
     private int saude;
     private int defesa;
     private int ataque;
     private String nome;
-    private bool visivel;
 
-    public Personagem(int vida, int defesa, int ataque, String nome) {
+    public Personagem(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
+        super(nome, imagem, visivel);
         this.saude = vida;
         this.defesa = defesa;
         this.ataque = ataque;
-        this.nome = nome;
     }
 
     public int getSaude() {
@@ -28,8 +30,9 @@ public abstract class Personagem {
         return ataque;
     }
 
+    @Override
     public String getNome() {
-        return nome;
+        return super.getNome();
     }
 
     public void setSaude(int vida) {
@@ -52,8 +55,7 @@ public abstract class Personagem {
         int dano = (this.ataque + new Random().nextInt(10)) - alvo.defender();
         if (dano < 0) {
             tomarDano(-dano);
-        }
-        else {
+        } else {
             alvo.tomarDano(dano);
         }
     }
@@ -61,11 +63,11 @@ public abstract class Personagem {
     public int defender() {
         int defesa = this.defesa + new Random().nextInt(5);
         return defesa;
-    } 
+    }
 
     public boolean tomarDano(int dano) {
         this.saude -= dano;
-        if this.saude <= 0 {
+        if (this.saude <= 0) {
             return false;
         }
         return true;
