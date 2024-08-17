@@ -1,14 +1,18 @@
 package entidades.personagens;
 
+import javax.swing.ImageIcon;
+import entidades.Item;
+import java.util.ArrayList;
+
 public abstract class Heroi extends Personagem {
 
-    private Item[] bolsa = new ArrayList<Item>();
+    private ArrayList<Item> bolsa;
     private final int tamanhoBolsa = 5;
     private int vidaMaxima;
 
-    public Heroi(int vida, int defesa, int ataque, String nome) {
-        super(vida, defesa, ataque, nome);
-        bolsa = new Item[tamanhoBolsa];
+    public Heroi(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
+        super(vida, defesa, ataque, nome, imagem, visivel);
+        bolsa = new ArrayList<Item>(tamanhoBolsa);
         this.vidaMaxima = vida;
     }
 
@@ -36,11 +40,11 @@ public abstract class Heroi extends Personagem {
         super.setAtaque(super.getAtaque() + upgrade);
     }
 
-    public Item[] getBolsa() {
+    public ArrayList<Item> getBolsa() {
         return this.bolsa;
     }
 
-    public void setBolsa(Item[] item) {
+    public void setBolsa(ArrayList<Item> item) {
         this.bolsa = item;
     }
 }

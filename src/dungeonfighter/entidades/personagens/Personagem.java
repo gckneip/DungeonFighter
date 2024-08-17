@@ -9,7 +9,6 @@ public abstract class Personagem extends Entidade {
     private int saude;
     private int defesa;
     private int ataque;
-    private String nome;
 
     public Personagem(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
         super(nome, imagem, visivel);
@@ -30,11 +29,6 @@ public abstract class Personagem extends Entidade {
         return ataque;
     }
 
-    @Override
-    public String getNome() {
-        return super.getNome();
-    }
-
     public void setSaude(int vida) {
         this.saude = vida;
     }
@@ -45,10 +39,6 @@ public abstract class Personagem extends Entidade {
 
     public void setAtaque(int ataque) {
         this.ataque = ataque;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public void atacar(Personagem alvo) {

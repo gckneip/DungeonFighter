@@ -1,27 +1,25 @@
 package entidades.personagens;
 
-public abstract class Inimigo extends Personagem{
+import javax.swing.ImageIcon;
+import entidades.Item;
+
+public abstract class Inimigo extends Personagem {
     private Item espolio;
 
-    public Inimigo(String nome, int vida, int ataque, int defesa){
-        super(nome, vida, ataque, defesa);
-        visivel = false;
+    public Inimigo(String nome, int vida, int ataque, int defesa, ImageIcon imagem, boolean visivel) {
+        super(vida, defesa, ataque, nome, imagem, visivel);
     }
 
-    public void setEspolio(Item espolio){
+    public void setEspolio(Item espolio) {
         this.espolio = espolio;
     }
 
-    public Item dropEspolio(){
+    public Item dropEspolio() {
         return espolio;
     }
 
-    public void setVisivel(){
-        this.visivel = !this.visivel;
-    }
-
-    public void morrer(){
+    public void morrer() {
         this.dropEspolio();
-        this.setVisivel();
+        super.setVisivel(false);
     }
 }
