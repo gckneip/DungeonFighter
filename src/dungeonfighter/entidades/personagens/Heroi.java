@@ -49,4 +49,8 @@ public abstract class Heroi extends Personagem {
     public void setBolsa(ArrayList<Item> item) {
         this.bolsa = item;
     }
+
+    public void morrer() {
+        super.setVida(0);
+    }
 }
