@@ -1,6 +1,6 @@
 package entidades;
 
-import entidades.personagens.Personagem;
+import entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
 
 public abstract class Item extends Entidade {
@@ -9,5 +9,5 @@ public abstract class Item extends Entidade {
         super(nome, imagem, visivel);
     }
 
-    public abstract void efeito(Personagem personagem);
+    public abstract void efeito(Heroi heroi);
 }

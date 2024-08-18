@@ -6,19 +6,19 @@ import javax.swing.ImageIcon;
 
 public abstract class Personagem extends Entidade {
 
-    private int saude;
+    private int vida;
     private int defesa;
     private int ataque;
 
     public Personagem(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
         super(nome, imagem, visivel);
-        this.saude = vida;
+        this.vida = vida;
         this.defesa = defesa;
         this.ataque = ataque;
     }
 
-    public int getSaude() {
-        return saude;
+    public int getVida() {
+        return vida;
     }
 
     public int getDefesa() {
@@ -29,8 +29,8 @@ public abstract class Personagem extends Entidade {
         return ataque;
     }
 
-    public void setSaude(int vida) {
-        this.saude = vida;
+    public void setVida(int vida) {
+        this.vida = vida;
     }
 
     public void setDefesa(int defesa) {
@@ -56,8 +56,8 @@ public abstract class Personagem extends Entidade {
     }
 
     public boolean tomarDano(int dano) {
-        this.saude -= dano;
-        if (this.saude <= 0) {
+        this.vida -= dano;
+        if (this.vida <= 0) {
             return false;
         }
         return true;

@@ -19,11 +19,11 @@ public abstract class Heroi extends Personagem {
     public abstract void especial(Personagem alvo);
 
     public void curar(int cura) {
-        if (super.getSaude() < vidaMaxima) {
-            if (super.getSaude() + cura > vidaMaxima) {
-                super.setSaude(vidaMaxima);
+        if (super.getVida() < vidaMaxima) {
+            if (super.getVida() + cura > vidaMaxima) {
+                super.setVida(vidaMaxima);
             } else {
-                super.setSaude(super.getSaude() + cura);
+                super.setVida(super.getVida() + cura);
             }
         }
     }
