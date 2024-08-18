@@ -1,7 +1,8 @@
 package entidades.personagens;
 
 import javax.swing.ImageIcon;
-import entidades.Item;
+
+import entidades.itens.Item;
 
 public abstract class Inimigo extends Personagem {
     private Item espolio;

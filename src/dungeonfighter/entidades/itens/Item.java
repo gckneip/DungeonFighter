@@ -1,5 +1,6 @@
-package entidades;
+package entidades.itens;
 
+import entidades.Entidade;
 import entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
 
