@@ -1,4 +1,5 @@
 package menu;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -14,10 +15,10 @@ public class Menu extends JPanel {
     public Menu() {
 
         setLayout(new BorderLayout());
-
-        imageMenu = new ImageIcon(getClass().getResource("/assets/dungeonFighterLogo2.jpg"));
+        String imagePath = "src/dungeonfighter/assets/dungeonFighterLogo2.jpg";
+        imageMenu = new ImageIcon(imagePath);
         JLabel image = new JLabel(imageMenu);
-        image.setHorizontalAlignment(JLabel.CENTER); 
+        image.setHorizontalAlignment(JLabel.CENTER);
 
         botaoComecarJogo = new JButton("Começar Jogo");
         botaoDebugger = new JButton("Debugger");
@@ -36,6 +37,7 @@ public class Menu extends JPanel {
             botaoComecarJogo.setVisible(false);
             botaoDebugger.setVisible(false);
             botaoSair.setVisible(false);
+            image.setVisible(false);
         });
 
         JPanel buttonPanel = new JPanel();
