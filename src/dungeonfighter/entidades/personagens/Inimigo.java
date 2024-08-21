@@ -1,6 +1,6 @@
 package entidades.personagens;
 
-import javax.swing.ImageIcon
+import javax.swing.ImageIcon;
 
 import entidades.itens.Item;
 
