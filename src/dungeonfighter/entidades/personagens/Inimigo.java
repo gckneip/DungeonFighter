@@ -1,7 +1,7 @@
-package entidades.personagens;
+package dungeonfighter.entidades.personagens;
 
 import javax.swing.ImageIcon;
-import entidades.Item;
+import dungeonfighter.entidades.Item;
 
 public abstract class Inimigo extends Personagem {
     private Item espolio;

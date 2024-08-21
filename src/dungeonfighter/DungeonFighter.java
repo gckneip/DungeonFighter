@@ -1,14 +1,17 @@
 
+package dungeonfighter;
+
+import dungeonfighter.entidades.personagens.Heroi;
+import dungeonfighter.menu.Menu;
 import java.awt.*;
 import javax.swing.*;
-import menu.Menu;
 
 public class DungeonFighter extends JFrame {
 
     private final Menu menu;
     private final Batalha batalha;
     private final Tabuleiro tabuleiro;
-    // private Heroi heroi;
+    private Heroi heroi;
     private static DungeonFighter instanciaDungeonFighter;
 
     private DungeonFighter() {
@@ -37,6 +40,10 @@ public class DungeonFighter extends JFrame {
         if (instanciaDungeonFighter == null)
             instanciaDungeonFighter = new DungeonFighter();
         return instanciaDungeonFighter;
+    }
+
+    public void setHeroi(Heroi heroi) {
+        getInstanceDungeonFighter().heroi = heroi;
     }
 
     public static void main(String[] args) {

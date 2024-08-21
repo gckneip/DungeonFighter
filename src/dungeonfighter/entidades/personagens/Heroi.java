@@ -1,7 +1,7 @@
-package entidades.personagens;
+package dungeonfighter.entidades.personagens;
 
 import javax.swing.ImageIcon;
-import entidades.Item;
+import dungeonfighter.entidades.Item;
 import java.util.ArrayList;
 
 public abstract class Heroi extends Personagem {

@@ -1,4 +1,4 @@
-package menu;
+package dungeonfighter.menu;
 
 import java.awt.*;
 import javax.swing.*;

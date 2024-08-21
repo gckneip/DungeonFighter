@@ -1,4 +1,4 @@
-package menu;
+package dungeonfighter.menu;
 import javax.swing.*;
 
 public class AtributosMenu extends JPanel {

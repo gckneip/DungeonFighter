@@ -1,3 +1,4 @@
+package dungeonfighter;
 
 import javax.swing.JPanel;
 
