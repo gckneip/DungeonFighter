@@ -1,6 +1,7 @@
 package dungeonfighter.menu;
 
 import dungeonfighter.DungeonFighter;
+import dungeonfighter.entidades.personagens.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
@@ -15,12 +16,6 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "src/dungeonfighter/assets/guerreiro.png");
         arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "src/dungeonfighter/assets/arqueiro.jpg");
 
-        // Adding action listeners
-        bruxoButton.addActionListener(this);
-        guerreiroButton.addActionListener(this);
-        arqueiroButton.addActionListener(this);
-
-        // Adding buttons to the panel
         add(bruxoButton);
         add(guerreiroButton);
         add(arqueiroButton);
@@ -28,19 +23,18 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Get the singleton instance of DungeonFighter
-        DungeonFighter jogo = DungeonFighter.getInstanceDungeonFighter();
+        DungeonFighter jogo =        // Determine which button was clicked and create the appropriate Heroi
+        DungeonFighter.getInstanceDungeonFighter();
+        Heroi heroi = null;
 
-        // Determine which button was clicked and create the appropriate Heroi
-        // if (e.getSource() == bruxoButton) {
-        //     Heroi bruxo = new Heroi("Bruxo", 100, 10, 10, 10, 10, 10, 10, 10, 10, 10);
-        //     jogo.setHeroi(bruxo);
-        // } else if (e.getSource() == guerreiroButton) {
-        //     Heroi guerreiro = HeroiFactory.createHeroi("Guerreiro");
-        //     jogo.setHeroi(guerreiro);
-        // } else if (e.getSource() == arqueiroButton) {
-        //     Heroi arqueiro = HeroiFactory.createHeroi("Arqueiro");
-        //     jogo.setHeroi(arqueiro);
-        // }
+        if (e.getSource() == bruxoButton) {
+            heroi = new Bruxo();
+        } else if (e.getSource() == guerreiroButton) {
+            heroi = new Guerreiro();
+        } else if (e.getSource() == arqueiroButton) {
+            heroi = new Arqueiro();
+        }
+
+        jogo.setHeroi(heroi);
     }
 }

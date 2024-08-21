@@ -46,6 +46,10 @@ public class DungeonFighter extends JFrame {
         getInstanceDungeonFighter().heroi = heroi;
     }
 
+    public  void getHeroi() {
+        getInstanceDungeonFighter().heroi = heroi;
+    }
+
     public static void main(String[] args) {
         JFrame jogo = getInstanceDungeonFighter();
         jogo.setVisible(true);
