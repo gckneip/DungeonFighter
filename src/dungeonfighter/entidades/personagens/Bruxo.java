@@ -1,0 +1,16 @@
+package entidades.personagens;
+
+import javax.swing.ImageIcon;
+
+public class Bruxo extends Heroi {
+
+    public Bruxo() {
+        super(20, 5, 8, "Bruxo", new ImageIcon("bruxo.jpg"), true);
+    }
+
+    @Override
+    public void especial(Personagem alvo) {
+        int dano = super.getAtaque() * 2;
+        alvo.setVida(alvo.getVida() - dano);
+    }
+}
