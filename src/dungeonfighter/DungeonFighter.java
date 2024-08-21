@@ -8,8 +8,10 @@ public class DungeonFighter extends JFrame {
     private final Menu menu;
     private final Batalha batalha;
     private final Tabuleiro tabuleiro;
+    // private Heroi heroi;
+    private static DungeonFighter instanciaDungeonFighter;
 
-    public DungeonFighter() {
+    private DungeonFighter() {
         super("Dungeon Fighter");
 
         menu = new Menu();
@@ -31,8 +33,14 @@ public class DungeonFighter extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
+    public static DungeonFighter getInstanceDungeonFighter() {
+        if (instanciaDungeonFighter == null)
+            instanciaDungeonFighter = new DungeonFighter();
+        return instanciaDungeonFighter;
+    }
+
     public static void main(String[] args) {
-        JFrame jogo = new DungeonFighter();
+        JFrame jogo = getInstanceDungeonFighter();
         jogo.setVisible(true);
     }
 }
