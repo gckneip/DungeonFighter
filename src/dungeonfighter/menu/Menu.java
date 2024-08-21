@@ -5,60 +5,64 @@ import javax.swing.*;
 
 public class Menu extends JPanel {
 
-    private final JButton botaoComecarJogo;
-    private final JButton botaoDebugger;
-    private final JButton botaoSair;
-    private EscolhaPersonagemMenu escolhaPersonagemMenu;
-    private AtributosMenu atributosMenu;
     private final ImageIcon imageMenu;
+    private final JLabel image;
+    private final BotoesIniciais botoesIniciais;
+    private final CriarHeroiMenu criarHeroiMenu;
 
     public Menu() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        setLayout(new BorderLayout());
         String imagePath = "src/dungeonfighter/assets/dungeonFighterLogo2.jpg";
         imageMenu = new ImageIcon(imagePath);
-        JLabel image = new JLabel(imageMenu);
+        image = new JLabel(imageMenu);
         image.setHorizontalAlignment(JLabel.CENTER);
 
-        botaoComecarJogo = new JButton("Começar Jogo");
-        botaoDebugger = new JButton("Debugger");
-        botaoSair = new JButton("Sair");
-        escolhaPersonagemMenu = new EscolhaPersonagemMenu();
-        atributosMenu = new AtributosMenu();
+        // Create button panel
+        botoesIniciais = new BotoesIniciais(
+            e -> comecarJogo(),
+            e -> debug(),
+            e -> System.exit(0)
+        );
+        botoesIniciais.setBackground(Color.GREEN);
 
-        atributosMenu.setVisible(false);
-        escolhaPersonagemMenu.setVisible(false);
+        // Create side-by-side panel
+        criarHeroiMenu = new CriarHeroiMenu();
+        criarHeroiMenu.setBackground(Color.ORANGE);
+        criarHeroiMenu.setVisible(false); // Initially hidden
 
-        botaoSair.addActionListener(e -> System.exit(0));
+        // Add image at the top
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.NORTH;
+        add(image, gbc);
 
-        botaoComecarJogo.addActionListener(e -> {
-            escolhaPersonagemMenu.setVisible(true);
-            atributosMenu.setVisible(true);
-            botaoComecarJogo.setVisible(false);
-            botaoDebugger.setVisible(false);
-            botaoSair.setVisible(false);
-            image.setVisible(false);
-        });
+        // Add botoesIniciais
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(botoesIniciais, gbc);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.add(botaoComecarJogo);
-        buttonPanel.add(botaoDebugger);
-        buttonPanel.add(botaoSair);
+        // Add criarHeroiMenu
+        gbc.gridy = 2;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(100, 500, 100, 500);
+        add(criarHeroiMenu, gbc);
+    }
 
-        JPanel escolhaPersonagemMenuPanel = new JPanel();
-        escolhaPersonagemMenuPanel.setLayout(new BoxLayout(escolhaPersonagemMenuPanel, BoxLayout.Y_AXIS));
-        escolhaPersonagemMenuPanel.add(escolhaPersonagemMenu);
-        escolhaPersonagemMenuPanel.add(atributosMenu);
+    private void comecarJogo() {
+        image.setVisible(false);
+        botoesIniciais.setVisible(false);
+        criarHeroiMenu.setVisible(true);
+        // Additional start game logic
+    }
 
-        botaoComecarJogo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botaoDebugger.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botaoSair.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        add(image, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.SOUTH);
-        add(escolhaPersonagemMenuPanel, BorderLayout.CENTER);
-        // this.add(escolhaPersonagemMenu);
-        // this.add(atributosMenu);
+    private void debug() {
+        // Debugging logic
     }
 }
