@@ -1,7 +1,9 @@
 package entidades.personagens;
 
 import javax.swing.ImageIcon;
-import entidades.Item;
+
+import entidades.itens.Item;
+
 import java.util.ArrayList;
 
 public abstract class Heroi extends Personagem {
@@ -19,11 +21,11 @@ public abstract class Heroi extends Personagem {
     public abstract void especial(Personagem alvo);
 
     public void curar(int cura) {
-        if (super.getSaude() < vidaMaxima) {
-            if (super.getSaude() + cura > vidaMaxima) {
-                super.setSaude(vidaMaxima);
+        if (super.getVida() < vidaMaxima) {
+            if (super.getVida() + cura > vidaMaxima) {
+                super.setVida(vidaMaxima);
             } else {
-                super.setSaude(super.getSaude() + cura);
+                super.setVida(super.getVida() + cura);
             }
         }
     }
@@ -46,5 +48,9 @@ public abstract class Heroi extends Personagem {
 
     public void setBolsa(ArrayList<Item> item) {
         this.bolsa = item;
+    }
+
+    public void morrer() {
+        super.setVida(0);
     }
 }
