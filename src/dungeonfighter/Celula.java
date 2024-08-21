@@ -1,5 +1,6 @@
+package dungeonfighter;
 
-import entidades.Entidade;
+import dungeonfighter.entidades.Entidade;
 
 public class Celula {
     private Entidade entidade;

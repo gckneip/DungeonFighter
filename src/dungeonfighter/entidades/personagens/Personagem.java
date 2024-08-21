@@ -1,6 +1,6 @@
-package entidades.personagens;
+package dungeonfighter.entidades.personagens;
 
-import entidades.Entidade;
+import dungeonfighter.entidades.Entidade;
 import java.util.Random;
 import javax.swing.ImageIcon;
 

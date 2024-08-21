@@ -1,17 +1,15 @@
+package dungeonfighter;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Batalha extends JFrame {
+public class Batalha extends JPanel {
 
     private final JButton botaoAtacar;
     private final JButton botaoFugir;
     private final JButton botaoUsarItem;
 
     public Batalha() {
-        super("Batalha");
-
         botaoAtacar = new JButton("Atacar");
         botaoFugir = new JButton("Fugir");
         botaoUsarItem = new JButton("Usar Item");
@@ -24,7 +22,6 @@ public class Batalha extends JFrame {
         add(painel);
 
         setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 }

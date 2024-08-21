@@ -1,4 +1,4 @@
-package entidades;
+package dungeonfighter.entidades;
 
 import javax.swing.ImageIcon;
 

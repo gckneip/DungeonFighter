@@ -1,7 +1,7 @@
-package entidades.itens;
+package dungeonfighter.entidades.itens;
 
-import entidades.Entidade;
-import entidades.personagens.Heroi;
+import dungeonfighter.entidades.Entidade;
+import dungeonfighter.entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
 
 public abstract class Item extends Entidade {

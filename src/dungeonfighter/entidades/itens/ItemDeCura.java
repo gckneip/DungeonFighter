@@ -1,6 +1,6 @@
-package entidades.itens;
+package dungeonfighter.entidades.itens;
 
-import entidades.personagens.Heroi;
+import dungeonfighter.entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
 
 public class ItemDeCura extends Item {

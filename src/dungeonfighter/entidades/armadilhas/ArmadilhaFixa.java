@@ -1,7 +1,7 @@
-package entidades.armadilhas;
+package dungeonfighter.entidades.armadilhas;
 
+import dungeonfighter.entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
-import entidades.personagens.Heroi;
 
 public abstract class ArmadilhaFixa extends Armadilha {
 
