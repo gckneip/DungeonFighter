@@ -4,12 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "Tabuleiro",
+            "request": "launch",
+            "mainClass": "Tabuleiro",
+            "projectName": "DungeonFighter_a99e9005"
+        },
         {
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App"
-            
         }
     ]
 }
