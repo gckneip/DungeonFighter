@@ -2,11 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 
 public class Tabuleiro extends JPanel {
     private Celula[][] celulas; // 2D array to store the grid of Celula objects
-    private ImageIcon imageIcon;
     private Jogador jogador;
 
     public Tabuleiro() {
@@ -22,32 +20,6 @@ public class Tabuleiro extends JPanel {
                 celulas[row][col].setBackground(Color.RED); // Set background color
                 celulas[row][col].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
 
-                // Add a MouseListener to each cell
-                // int finalRow = row;
-                // int finalCol = col;
-                // celulas[row][col].addMouseListener(new MouseAdapter() {
-                // @Override
-                // public void mouseClicked(MouseEvent e) {
-                // // Action when a cell is clicked
-                // JOptionPane.showMessageDialog(null,
-                // "Cell clicked at row " + finalRow + ", column " + finalCol);
-                // moverPersonagem(finalRow, finalCol);
-                // }
-
-                // @Override
-                // public void mouseEntered(MouseEvent e) {
-                // celulas[finalRow][finalCol].setCursor(new Cursor(Cursor.HAND_CURSOR)); //
-                // Change cursor on hover
-                // }
-
-                // @Override
-                // public void mouseExited(MouseEvent e) {
-                // celulas[finalRow][finalCol].setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); //
-                // Revert cursor when
-                // // exiting
-                // }
-                // });
-
                 // Add the cell to the grid layout
                 add(celulas[row][col]);
                 // celulas[row][col].activateMouseListener();
@@ -56,21 +28,11 @@ public class Tabuleiro extends JPanel {
             }
         }
 
-        // Load an image and set it in the first cell
-        // imageIcon = new
-        // ImageIcon("src/dungeonfighter/entidades/personagens/guerreiro.jpeg"); //
-        // Replace with
-        // the correct
-        // image
-        // path
-        // JLabel imageLabel = new JLabel(imageIcon);
-        // JPanel imagePanel = new JPanel();
-        // imagePanel.add(imageLabel);
-
         // Add the image panel to the first cell
         celulas[0][0].setLayout(new BorderLayout());
         celulas[0][0].add(jogador);
-        setMouseListener(0, 0);
+        // setMouseListener(0, 0);
+        setCelulasClicaveis(0, 0);
         moverPersonagem(0, 0);
         // celulas[0][0].add(imagePanel, BorderLayout.CENTER);
 
@@ -89,7 +51,7 @@ public class Tabuleiro extends JPanel {
 
         // Add the image to the new cell
         this.jogador.mover(row, col);
-
+        setCelulasClicaveis(row, col);
         // calcular as células clicáveis
 
         celulas[row][col].add(this.jogador);
@@ -125,31 +87,35 @@ public class Tabuleiro extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 // Action when a cell is clicked
                 JOptionPane.showMessageDialog(null, "Cell clicked at row " + row + ", column " + col);
-                // moverPersonagem(row, col);
+                moverPersonagem(row, col);
             }
         });
         celulas[row][col].activateMouseListener();
     }
 
     void resetMouseListener(int row, int col) {
+        // Deactivate and remove the mouse listener from the current cell
+        removeMouseListenerFromCell(row, col);
 
-        celulas[row][col].deactivateMouseListener();
-        celulas[row][col].removeMouseListener(celulas[row][col].getMouseListeners()[0]);
         if (row - 1 >= 0) {
-            celulas[row - 1][col].deactivateMouseListener();
-            celulas[row - 1][col].removeMouseListener(celulas[row - 1][col].getMouseListeners()[0]);
+            removeMouseListenerFromCell(row - 1, col);
         }
         if (row + 1 < 8) {
-            celulas[row + 1][col].deactivateMouseListener();
-            celulas[row + 1][col].removeMouseListener(celulas[row + 1][col].getMouseListeners()[0]);
+            removeMouseListenerFromCell(row + 1, col);
         }
         if (col - 1 >= 0) {
-            celulas[row][col - 1].deactivateMouseListener();
-            celulas[row][col - 1].removeMouseListener(celulas[row][col - 1].getMouseListeners()[0]);
+            removeMouseListenerFromCell(row, col - 1);
         }
         if (col + 1 < 8) {
-            celulas[row][col + 1].deactivateMouseListener();
-            celulas[row][col + 1].removeMouseListener(celulas[row][col + 1].getMouseListeners()[0]);
+            removeMouseListenerFromCell(row, col + 1);
+        }
+    }
+
+    private void removeMouseListenerFromCell(int row, int col) {
+        Celula cell = celulas[row][col];
+        if (cell.getMouseListeners().length > 0) {
+            cell.deactivateMouseListener();
+            cell.removeMouseListener(cell.getMouseListeners()[0]);
         }
     }
 
