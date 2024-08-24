@@ -1,44 +1,100 @@
 package dungeonfighter.menu;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.*;
 
 public class AtributosMenu extends JPanel {
-    private int atributosIniciais;
+    private int atributosExtras;
     private final BotaoAtributo botaoAtaque;
     private final BotaoAtributo botaoDefesa;
     private final BotaoAtributo botaoVida;
     private final JLabel atributosIniciaisLabel;
 
     public AtributosMenu() {
-        atributosIniciais = 10;
+        atributosExtras = 10;
+
         botaoAtaque = new BotaoAtributo("Ataque", 0, this);
         botaoDefesa = new BotaoAtributo("Defesa", 0, this);
         botaoVida = new BotaoAtributo("Vida", 0, this);
 
-        atributosIniciaisLabel = new JLabel("Atributos Iniciais: " + atributosIniciais);
+        atributosIniciaisLabel = new JLabel("Atributos Iniciais: " + atributosExtras);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        add(atributosIniciaisLabel);
-        add(botaoAtaque);
-        add(botaoDefesa);
-        add(botaoVida);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3; 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(atributosIniciaisLabel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1; 
+        gbc.fill = GridBagConstraints.HORIZONTAL; 
+        add(botaoAtaque, gbc);
+
+        gbc.gridy = 2; 
+        add(botaoDefesa, gbc);
+
+        gbc.gridy = 3; 
+        add(botaoVida, gbc);
     }
 
-    public int getAtributosIniciais() {
-        return atributosIniciais;
+    public void setEscolhido(tipoHeroi escolhido) {
+        switch (escolhido) {
+            case BRUXO -> {
+                botaoAtaque.setValorInicial(8);
+                botaoDefesa.setValorInicial(5);
+                botaoVida.setValorInicial(20);
+            }
+            case GUERREIRO -> {
+                botaoAtaque.setValorInicial(5);
+                botaoDefesa.setValorInicial(10);
+                botaoVida.setValorInicial(30);
+            }
+            case ARQUEIRO -> {
+                botaoAtaque.setValorInicial(6);
+                botaoDefesa.setValorInicial(3);
+                botaoVida.setValorInicial(25);
+            }
+            default -> throw new AssertionError();
+        }
+
+        this.atributosExtras = 10;
+        updateAtributosIniciaisLabel();
+    }
+
+    public int getAtributosExtras() {
+        return atributosExtras;
     }
 
     public void decrementAtributosIniciais() {
-        atributosIniciais--;
+        atributosExtras--;
         updateAtributosIniciaisLabel();
     }
-    
+
     public void incrementAtributosIniciais() {
-        atributosIniciais++;
+        atributosExtras++;
         updateAtributosIniciaisLabel();
     }
 
     private void updateAtributosIniciaisLabel() {
-        atributosIniciaisLabel.setText("Atributos Iniciais: " + atributosIniciais);
+        atributosIniciaisLabel.setText("Atributos Iniciais: " + atributosExtras);
+    }
+
+    public int getAtaque() {
+        return botaoAtaque.getValor();
+    }
+
+    public int getDefesa() {
+        return botaoDefesa.getValor();
+    }
+
+    public int getVida() {
+        return botaoVida.getValor();
     }
 }

@@ -1,40 +1,87 @@
 package dungeonfighter.menu;
 
-import dungeonfighter.DungeonFighter;
-import dungeonfighter.entidades.personagens.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import javax.swing.*;
 
 public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
     private final EscolhaPersonagemBotao bruxoButton;
     private final EscolhaPersonagemBotao guerreiroButton;
     private final EscolhaPersonagemBotao arqueiroButton;
+    private tipoHeroi escolhido;
+    private EscolhaPersonagemBotao botaoSelecionado;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public EscolhaPersonagemMenu() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
         bruxoButton = new EscolhaPersonagemBotao("Bruxo", "src/dungeonfighter/assets/bruxo.png");
         guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "src/dungeonfighter/assets/guerreiro.png");
         arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "src/dungeonfighter/assets/arqueiro.jpg");
 
-        add(bruxoButton);
-        add(guerreiroButton);
-        add(arqueiroButton);
+        addActionListeners();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(bruxoButton, gbc);
+
+        gbc.gridx = 1;
+        add(guerreiroButton, gbc);
+
+        gbc.gridx = 2; 
+        add(arqueiroButton, gbc);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        DungeonFighter jogo =        // Determine which button was clicked and create the appropriate Heroi
-        DungeonFighter.getInstanceDungeonFighter();
-        Heroi heroi = null;
+        EscolhaPersonagemBotao clickedButton = null;
 
         if (e.getSource() == bruxoButton) {
-            heroi = new Bruxo();
+            clickedButton = bruxoButton;
+            setEscolhido(tipoHeroi.BRUXO);
         } else if (e.getSource() == guerreiroButton) {
-            heroi = new Guerreiro();
+            clickedButton = guerreiroButton;
+            setEscolhido(tipoHeroi.GUERREIRO);
         } else if (e.getSource() == arqueiroButton) {
-            heroi = new Arqueiro();
+            clickedButton = arqueiroButton;
+            setEscolhido(tipoHeroi.ARQUEIRO);
         }
 
-        jogo.setHeroi(heroi);
+        if (clickedButton != null) {
+            setBotaoSelecionado(clickedButton);
+        }
+    }
+
+    public tipoHeroi getEscolhido() {
+        return escolhido;
+    }
+
+    public void setEscolhido(tipoHeroi escolhido) {
+        tipoHeroi oldEscolhido = this.escolhido;
+        this.escolhido = escolhido;
+        pcs.firePropertyChange("escolhido", oldEscolhido, escolhido);
+    }
+
+    public void addEscolhidoChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    private void setBotaoSelecionado(EscolhaPersonagemBotao clickedButton) {
+        if (botaoSelecionado != null) {
+            botaoSelecionado.setSelected(false);
+        }
+        
+        clickedButton.setSelected(true);
+        botaoSelecionado = clickedButton;
+    }
+
+    private void addActionListeners() {
+        bruxoButton.addActionListener(this);
+        guerreiroButton.addActionListener(this);
+        arqueiroButton.addActionListener(this);
     }
 }

@@ -20,7 +20,7 @@ public class BotaoAtributo extends JPanel {
         botaoMenos = new JButton("-");
 
         botaoMais.addActionListener((ActionEvent e) -> {
-            if (atributosMenu.getAtributosIniciais() > 0) {
+            if (atributosMenu.getAtributosExtras() > 0) {
                 valor++;
                 atributosMenu.decrementAtributosIniciais();
                 updateValor();
@@ -36,12 +36,21 @@ public class BotaoAtributo extends JPanel {
         });
 
         add(labelNome);
-        add(botaoMenos);
         add(labelValor);
+        add(botaoMenos);
         add(botaoMais);
+    }
+
+    public void setValorInicial(int valorInicial) {
+        valor = valorInicial;
+        updateValor();
     }
 
     private void updateValor() {
         labelValor.setText(String.valueOf(valor));
+    }
+
+    public int getValor() {
+        return valor;
     }
 }
