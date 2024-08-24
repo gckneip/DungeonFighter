@@ -22,6 +22,5 @@ public class BotoesIniciais extends JPanel {
         add(botaoComecarJogo);
         add(botaoDebugger);
         add(botaoSair);
-        setBackground(Color.CYAN);
     }
 }

@@ -37,9 +37,9 @@ public class DungeonFighter extends JFrame {
         tabuleiro.setVisible(false);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(720, 480);
         setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public static DungeonFighter getInstanceDungeonFighter() {

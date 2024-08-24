@@ -14,15 +14,11 @@ public class CriarHeroiMenu extends JPanel {
 
     public CriarHeroiMenu() {
         setLayout(new BorderLayout());
-        setBackground(Color.RED);
 
         titulo = new JLabel("Escolha seu Personagem", JLabel.CENTER);
         titulo.setFont(new Font("Arial", Font.BOLD, 24));
-        titulo.setForeground(Color.WHITE);
 
         botaoComecar = new JButton("Confirmar");
-        botaoComecar.setBackground(Color.GREEN);
-        botaoComecar.setForeground(Color.BLACK);
         botaoComecar.setPreferredSize(new Dimension(120, 50));
         botaoComecar.setMinimumSize(new Dimension(120, 50));
         botaoComecar.setMaximumSize(new Dimension(120, 50));
@@ -36,7 +32,6 @@ public class CriarHeroiMenu extends JPanel {
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        inputPanel.setBackground(Color.RED);
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 300, 10, 300));
 
         JLabel nomeLabel = new JLabel("Nome do Herói:");
@@ -60,9 +55,7 @@ public class CriarHeroiMenu extends JPanel {
         gbc.weighty = 1.0;
 
         escolhaPersonagemMenu = new EscolhaPersonagemMenu();
-        escolhaPersonagemMenu.setBackground(Color.YELLOW);
         atributosMenu = new AtributosMenu();
-        atributosMenu.setBackground(Color.BLUE);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
