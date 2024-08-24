@@ -48,7 +48,6 @@ public class CriarHeroiMenu extends JPanel {
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
-        contentPanel.setBackground(Color.RED);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
@@ -56,6 +55,11 @@ public class CriarHeroiMenu extends JPanel {
 
         escolhaPersonagemMenu = new EscolhaPersonagemMenu();
         atributosMenu = new AtributosMenu();
+
+        escolhaPersonagemMenu.addEscolhidoChangeListener(evt -> {
+            tipoHeroi novoEscolhido = escolhaPersonagemMenu.getEscolhido();
+            atributosMenu.setEscolhido(novoEscolhido);
+        });
 
         gbc.gridx = 0;
         gbc.gridy = 0;

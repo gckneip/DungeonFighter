@@ -1,8 +1,9 @@
 package dungeonfighter.menu;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import javax.swing.*;
 
 public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
@@ -11,6 +12,7 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
     private final EscolhaPersonagemBotao arqueiroButton;
     private tipoHeroi escolhido;
     private EscolhaPersonagemBotao botaoSelecionado;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public EscolhaPersonagemMenu() {
         setLayout(new GridBagLayout());
@@ -21,9 +23,7 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "src/dungeonfighter/assets/guerreiro.png");
         arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "src/dungeonfighter/assets/arqueiro.jpg");
 
-        bruxoButton.addActionListener(this);
-        guerreiroButton.addActionListener(this);
-        arqueiroButton.addActionListener(this);
+        addActionListeners();
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -61,7 +61,13 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
     }
 
     public void setEscolhido(tipoHeroi escolhido) {
+        tipoHeroi oldEscolhido = this.escolhido;
         this.escolhido = escolhido;
+        pcs.firePropertyChange("escolhido", oldEscolhido, escolhido);
+    }
+
+    public void addEscolhidoChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
     }
 
     private void setBotaoSelecionado(EscolhaPersonagemBotao clickedButton) {
@@ -71,5 +77,11 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         
         clickedButton.setSelected(true);
         botaoSelecionado = clickedButton;
+    }
+
+    private void addActionListeners() {
+        bruxoButton.addActionListener(this);
+        guerreiroButton.addActionListener(this);
+        arqueiroButton.addActionListener(this);
     }
 }

@@ -23,29 +23,49 @@ public class AtributosMenu extends JPanel {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Padding around components
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Constraints for atributosIniciaisLabel
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3; // Span across 3 columns
+        gbc.gridwidth = 3; 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(atributosIniciaisLabel, gbc);
 
-        // Constraints for botaoAtaque
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1; // Span only 1 column
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Ensure the button spans the full width of the column
+        gbc.gridwidth = 1; 
+        gbc.fill = GridBagConstraints.HORIZONTAL; 
         add(botaoAtaque, gbc);
 
-        // Constraints for botaoDefesa
-        gbc.gridy = 2; // Move to the next row
+        gbc.gridy = 2; 
         add(botaoDefesa, gbc);
 
-        // Constraints for botaoVida
-        gbc.gridy = 3; // Move to the next row
+        gbc.gridy = 3; 
         add(botaoVida, gbc);
+    }
+
+    public void setEscolhido(tipoHeroi escolhido) {
+        switch (escolhido) {
+            case BRUXO -> {
+                botaoAtaque.setValorInicial(8);
+                botaoDefesa.setValorInicial(5);
+                botaoVida.setValorInicial(20);
+            }
+            case GUERREIRO -> {
+                botaoAtaque.setValorInicial(5);
+                botaoDefesa.setValorInicial(10);
+                botaoVida.setValorInicial(30);
+            }
+            case ARQUEIRO -> {
+                botaoAtaque.setValorInicial(6);
+                botaoDefesa.setValorInicial(3);
+                botaoVida.setValorInicial(25);
+            }
+            default -> throw new AssertionError();
+        }
+
+        this.atributosExtras = 10;
+        updateAtributosIniciaisLabel();
     }
 
     public int getAtributosExtras() {

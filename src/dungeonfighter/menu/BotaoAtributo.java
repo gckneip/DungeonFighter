@@ -41,6 +41,11 @@ public class BotaoAtributo extends JPanel {
         add(botaoMais);
     }
 
+    public void setValorInicial(int valorInicial) {
+        valor = valorInicial;
+        updateValor();
+    }
+
     private void updateValor() {
         labelValor.setText(String.valueOf(valor));
     }
