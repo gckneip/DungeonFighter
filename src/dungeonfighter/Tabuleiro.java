@@ -1,8 +1,10 @@
+package dungeonfighter;
+
 import javax.swing.*;
 
-import entidades.armadilhas.Armadilha;
-import entidades.itens.Elixir;
-import entidades.personagens.ImpostoDeRenda;
+//import dungeonfighter.entidades.armadilhas.Armadilha;
+import dungeonfighter.entidades.itens.Elixir;
+import dungeonfighter.entidades.personagens.ImpostoDeRenda;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

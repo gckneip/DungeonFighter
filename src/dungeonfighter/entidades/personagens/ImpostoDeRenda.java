@@ -1,8 +1,8 @@
-package entidades.personagens;
+package dungeonfighter.entidades.personagens;
 
 import javax.swing.ImageIcon;
 
-import entidades.itens.Elixir;
+import dungeonfighter.entidades.itens.Elixir;
 
 public class ImpostoDeRenda extends Inimigo {
     public ImpostoDeRenda() {

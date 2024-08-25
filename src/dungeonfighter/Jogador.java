@@ -1,3 +1,5 @@
+package dungeonfighter;
+
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
