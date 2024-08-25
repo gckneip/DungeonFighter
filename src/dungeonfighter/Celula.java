@@ -39,4 +39,12 @@ public class Celula extends JPanel {
     public void deactivateMouseListener() {
         this.removeMouseListener(mouseAdapter);
     }
+
+    public void setEntidade(Entidade entidade) {
+        this.entidade = entidade;
+    }
+
+    public Entidade getEntidade() {
+        return entidade;
+    }
 }

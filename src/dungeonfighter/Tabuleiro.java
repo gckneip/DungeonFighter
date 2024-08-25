@@ -1,4 +1,9 @@
 import javax.swing.*;
+
+import entidades.armadilhas.Armadilha;
+import entidades.itens.Elixir;
+import entidades.personagens.ImpostoDeRenda;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,6 +38,10 @@ public class Tabuleiro extends JPanel {
         celulas[0][0].add(jogador);
         // setMouseListener(0, 0);
         setCelulasClicaveis(0, 0);
+        celulas[2][2].setBackground(Color.GREEN);
+        celulas[2][2].setEntidade(new Elixir(true, 5));
+        celulas[3][3].setBackground(Color.BLUE);
+        celulas[3][3].setEntidade(new ImpostoDeRenda());
         // moverPersonagem(0, 0);
         // celulas[0][0].add(imagePanel, BorderLayout.CENTER);
 
@@ -60,6 +69,16 @@ public class Tabuleiro extends JPanel {
         // celulas[row][col].add(jogador, BorderLayout.CENTER);
         celulas[row][col].revalidate();
         celulas[row][col].repaint();
+
+        if (celulas[row][col].getEntidade() instanceof Elixir) {
+            Elixir elixir = (Elixir) celulas[row][col].getEntidade();
+            JOptionPane.showMessageDialog(null, "Você encontrou um elixir! Cura: " + elixir.getCura());
+        }
+
+        if (celulas[row][col].getEntidade() instanceof ImpostoDeRenda) {
+            ImpostoDeRenda imposto = (ImpostoDeRenda) celulas[row][col].getEntidade();
+            JOptionPane.showMessageDialog(null, "Você encontrou um Imposto de Renda! Dano: " + imposto.getDano());
+        }
     }
 
     void setCelulasClicaveis(int row, int col) {
