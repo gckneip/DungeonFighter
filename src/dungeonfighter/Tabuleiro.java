@@ -33,7 +33,7 @@ public class Tabuleiro extends JPanel {
         celulas[0][0].add(jogador);
         // setMouseListener(0, 0);
         setCelulasClicaveis(0, 0);
-        moverPersonagem(0, 0);
+        // moverPersonagem(0, 0);
         // celulas[0][0].add(imagePanel, BorderLayout.CENTER);
 
         setVisible(true); // Make the JFrame visible
@@ -47,6 +47,7 @@ public class Tabuleiro extends JPanel {
         celulas[y][x].removeAll();
         celulas[y][x].revalidate();
         celulas[y][x].repaint();
+        celulas[y][x].setBackground(Color.white);
         resetMouseListener(y, x);
 
         // Add the image to the new cell
@@ -86,7 +87,8 @@ public class Tabuleiro extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Action when a cell is clicked
-                JOptionPane.showMessageDialog(null, "Cell clicked at row " + row + ", column " + col);
+                // JOptionPane.showMessageDialog(null, "Cell clicked at row " + row + ", column
+                // " + col);
                 moverPersonagem(row, col);
             }
         });
