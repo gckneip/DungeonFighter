@@ -8,6 +8,27 @@
             "type": "java",
             "name": "DungeonFighter",
             "request": "launch",
+            "mainClass": "dungeonfighter.DungeonFighter",
+            "projectName": "DungeonFighter_a99e9005"
+        },
+        {
+            "type": "java",
+            "name": "DungeonFighter",
+            "request": "launch",
+            "mainClass": "DungeonFighter",
+            "projectName": "DungeonFighter_a99e9005"
+        },
+        {
+            "type": "java",
+            "name": "Tabuleiro",
+            "request": "launch",
+            "mainClass": "Tabuleiro",
+            "projectName": "DungeonFighter_a99e9005"
+        },
+        {
+            "type": "java",
+            "name": "DungeonFighter",
+            "request": "launch",
             "mainClass": "DungeonFighter",
             "projectName": "DungeonFighter_a99e9005"
         },
