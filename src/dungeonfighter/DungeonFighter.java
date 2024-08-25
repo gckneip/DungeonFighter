@@ -1,6 +1,9 @@
 package dungeonfighter;
 
+import dungeonfighter.batalha.Batalha;
+import dungeonfighter.entidades.personagens.Bruxo;
 import dungeonfighter.entidades.personagens.Heroi;
+import dungeonfighter.entidades.personagens.Inimigo;
 import dungeonfighter.menu.Menu;
 import java.awt.*;
 import javax.swing.*;
@@ -8,7 +11,7 @@ import javax.swing.*;
 public class DungeonFighter extends JFrame {
 
     private final Menu menu;
-    private final Batalha batalha;
+    private Batalha batalha;
     private final Tabuleiro tabuleiro;
     private Heroi heroi;
     private static DungeonFighter instanciaDungeonFighter;
@@ -17,7 +20,6 @@ public class DungeonFighter extends JFrame {
         super("Dungeon Fighter");
 
         menu = new Menu();
-        batalha = new Batalha();
         tabuleiro = new Tabuleiro();
 
         setLayout(new GridBagLayout());
@@ -29,16 +31,15 @@ public class DungeonFighter extends JFrame {
         gbc.weighty = 1.0;
 
         getContentPane().add(menu, gbc);
-        getContentPane().add(batalha, gbc);
         getContentPane().add(tabuleiro, gbc);
 
         menu.setVisible(true);
-        batalha.setVisible(false);
         tabuleiro.setVisible(false);
-
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(800, 600);
+        // setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public static DungeonFighter getInstanceDungeonFighter() {
@@ -63,7 +64,26 @@ public class DungeonFighter extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame jogo = getInstanceDungeonFighter();
-        jogo.setVisible(true);
+        getInstanceDungeonFighter().setVisible(true);
+    }
+
+    public void iniciarBatalha(Inimigo inimigo) {
+        menu.setVisible(false);
+        tabuleiro.setVisible(false);
+
+        //temporario pra me ajudar no teste
+        heroi = new Bruxo();
+        
+        batalha = new Batalha(getHeroi(), inimigo);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        getContentPane().add(batalha, gbc);
+        batalha.setVisible(true);
     }
 }
