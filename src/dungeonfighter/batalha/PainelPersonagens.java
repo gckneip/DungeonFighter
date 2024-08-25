@@ -26,9 +26,14 @@ public class PainelPersonagens extends JPanel{
 
             gbc.gridx = 1;
             add(painelInimigo, gbc);
+        }
 
-            
-            
+        public void atualizarVida(Heroi heroi, Inimigo inimigo){
+            int vidaHeroi = heroi.getVida();
+            int vidaInimigo = inimigo.getVida();
+
+            painelHeroi.atualizarVida(vidaHeroi);
+            painelInimigo.atualizarVida(vidaInimigo);
         }
     
 }

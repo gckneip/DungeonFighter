@@ -73,7 +73,7 @@ public class DungeonFighter extends JFrame {
 
         //temporario pra me ajudar no teste
         heroi = new Bruxo();
-        
+
         batalha = new Batalha(getHeroi(), inimigo);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -85,5 +85,17 @@ public class DungeonFighter extends JFrame {
 
         getContentPane().add(batalha, gbc);
         batalha.setVisible(true);
+
+        revalidate();
+        repaint();
+    }
+
+    public void finalizarBatalha() {
+        batalha.setVisible(false);
+        tabuleiro.setVisible(true);
+    }
+
+    public void gameOver() {
+        System.exit(0);
     }
 }
