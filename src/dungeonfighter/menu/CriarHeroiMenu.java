@@ -101,9 +101,9 @@ public class CriarHeroiMenu extends JPanel {
             }
 
             if (heroi != null) {
-                heroi.setAtaque(heroi.getAtaque() + ataque);
-                heroi.setDefesa(heroi.getDefesa() + defesa);
-                heroi.setVida(heroi.getVida() + vida);
+                heroi.setAtaque(heroi.getAtaque() + (ataque - heroi.getAtaque()));
+                heroi.setDefesa(heroi.getDefesa() + (defesa - heroi.getDefesa()));
+                heroi.setVida(heroi.getVida() + (vida - heroi.getVida()));
 
                 jogo.setHeroi(heroi);
                 jogo.iniciarJogo();
@@ -111,7 +111,8 @@ public class CriarHeroiMenu extends JPanel {
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro inesperado: " + ex.getMessage(), "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

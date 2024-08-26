@@ -72,6 +72,7 @@ public class DungeonFighter extends JFrame {
     public void iniciarJogo() {
         menu.setVisible(false);
         batalha.setVisible(false);
+        tabuleiro.carregarHeroi();
         tabuleiro.setVisible(true);
     }
 

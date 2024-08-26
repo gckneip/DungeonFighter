@@ -51,4 +51,8 @@ public abstract class Heroi extends Personagem {
     public void morrer() {
         super.setVida(0);
     }
+
+    public ImageIcon getIcone() {
+        return super.getIcone();
+    }
 }

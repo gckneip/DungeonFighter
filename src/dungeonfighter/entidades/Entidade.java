@@ -1,5 +1,7 @@
 package dungeonfighter.entidades;
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 public abstract class Entidade {
@@ -12,6 +14,10 @@ public abstract class Entidade {
         this.nome = nome;
         this.icone = icone;
         this.visivel = visivel;
+    }
+
+    public Image getImagem() {
+        return this.icone.getImage();
     }
 
     public String getNome() {
