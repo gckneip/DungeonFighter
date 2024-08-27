@@ -22,6 +22,7 @@ public class Tabuleiro extends JPanel {
     private JPanel imagePanel;
     private int xAnterior;
     private int yAnterior;
+    private int dicas;
 
     private Inimigo[] inimigos;
     private Armadilha[] armadilhas;
@@ -33,6 +34,7 @@ public class Tabuleiro extends JPanel {
         this.armadilhas = armadilhas;
         this.itens = itens;
 
+        this.dicas = 3;
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -162,6 +164,14 @@ public class Tabuleiro extends JPanel {
         gbcDefesaLabel.weighty = 4;
 
         JButton dicaButton = new JButton("Dica");
+        dicaButton.addActionListener(e -> {
+            if (dicas > 0) {
+                usarDica();
+                dicas--;
+            } else {
+                JOptionPane.showMessageDialog(null, "Você não tem mais dicas!");
+            }
+        });
         GridBagConstraints gbcDicaButton = new GridBagConstraints();
         gbcDicaButton.gridx = 0;
         gbcDicaButton.gridy = 1;
@@ -252,11 +262,53 @@ public class Tabuleiro extends JPanel {
 
     // ----------------Métodos chamados pela BATALHA----------------
 
+    public void usarDica() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                int finalCol = col;
+                celulas[row][col].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        verificarColuna(finalCol);
+                    }
+                });
+                celulas[row][col].activateMouseListener();
+            }
+        }
+    }
+
+    public void verificarColuna(int col) {
+        int nArmdilhas = 0;
+        for (int row = 0; row < 8; row++) {
+            if (celulas[row][col].getEntidade() != null) {
+                if (celulas[row][col].getEntidade() instanceof Armadilha) {
+                    nArmdilhas++;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Há " + nArmdilhas + " armadilhas na coluna " + col);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                celulas[i][j].removeMouseListener(celulas[i][j].getMouseListeners()[0]);
+                celulas[i][j].deactivateMouseListener();
+            }
+        }
+
+        setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
+    }
+
     public void fugir() {
         JOptionPane.showMessageDialog(null, "Você fugiu da batalha!");
         celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].remove(jogador);
+        resetMouseListener(jogador.getPosicaoX(), jogador.getPosicaoY());
         celulas[yAnterior][xAnterior].add(jogador, BorderLayout.CENTER);
-        moverPersonagem(yAnterior, xAnterior);
+        celulas[yAnterior][xAnterior].revalidate();
+        celulas[yAnterior][xAnterior].repaint();
+        jogador.setPodeMover(false);
+        jogador.mover(yAnterior, xAnterior);
+        setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
+        // moverPersonagem(yAnterior, xAnterior);
     }
 
     // ----------------Métodos chamados pela BATALHA----------------
@@ -290,9 +342,6 @@ public class Tabuleiro extends JPanel {
             gbcImagePanel.weighty = 2.0;
             gbcImagePanel.fill = GridBagConstraints.BOTH;
             menu.add(imagePanel, gbcImagePanel);
-            // menu.revalidate();
-            // menu.repaint();
-
         }
     }
 
@@ -411,9 +460,9 @@ public class Tabuleiro extends JPanel {
         Random random = new Random();
         for (int i = 0; i < 7; i++) {
             if (i == 0) {
-                xInimigos[i] = (int) (Math.random() * 7) + 1;
+                xInimigos[i] = random.nextInt(7) + 1;
             } else {
-                xInimigos[i] = (int) (Math.random() * 8);
+                xInimigos[i] = random.nextInt(8);
             }
         }
         for (int i = 0; i < 7; i++) {
@@ -421,8 +470,8 @@ public class Tabuleiro extends JPanel {
             celulas[i][xInimigos[i]].setBackground(Color.black);
         }
         for (int i = 0; i < armadilhas.length; i++) {
-            int x = (int) (Math.random() * 8);
-            int y = (int) (Math.random() * 8);
+            int x = random.nextInt(8);
+            int y = random.nextInt(8);
             if (celulas[y][x].getEntidade() == null) {
                 celulas[y][x].setEntidade(armadilhas[i]);
                 celulas[y][x].setBackground(Color.gray);
@@ -432,8 +481,8 @@ public class Tabuleiro extends JPanel {
         }
 
         for (int i = 0; i < itens.length; i++) {
-            int x = (int) (Math.random() * 8);
-            int y = (int) (Math.random() * 8);
+            int x = random.nextInt(8);
+            int y = random.nextInt(8);
             if (celulas[y][x].getEntidade() == null) {
                 celulas[y][x].setEntidade(itens[i]);
                 celulas[y][x].setBackground(Color.green);

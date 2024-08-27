@@ -2,6 +2,7 @@ package dungeonfighter.entidades.armadilhas;
 
 import dungeonfighter.entidades.personagens.Heroi;
 import javax.swing.ImageIcon;
+import java.util.Random;
 
 public abstract class ArmadilhaAleatoria extends Armadilha {
 
@@ -11,7 +12,8 @@ public abstract class ArmadilhaAleatoria extends Armadilha {
 
     @Override
     public boolean darDano(Heroi heroi) {
-        int dano = (int) (Math.random() * 10);
+        Random random = new Random();
+        int dano = random.nextInt(4) + 2;
         return heroi.tomarDano(dano);
     }
 }

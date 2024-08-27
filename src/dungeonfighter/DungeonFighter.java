@@ -2,7 +2,7 @@ package dungeonfighter;
 
 import dungeonfighter.batalha.*;
 import dungeonfighter.entidades.armadilhas.Armadilha;
-import dungeonfighter.entidades.armadilhas.FilaBanco;
+import dungeonfighter.entidades.armadilhas.BifeEnvenenado;
 import dungeonfighter.entidades.itens.*;
 import dungeonfighter.entidades.personagens.Heroi;
 import dungeonfighter.entidades.personagens.Inimigo;
@@ -123,12 +123,12 @@ public class DungeonFighter extends JFrame {
 
     public Armadilha[] gerarArmadilhas() {
         Armadilha[] armadilhas = new Armadilha[6];
-        armadilhas[0] = new FilaBanco();
-        armadilhas[1] = new FilaBanco();
-        armadilhas[2] = new FilaBanco();
-        armadilhas[3] = new FilaBanco();
-        armadilhas[4] = new FilaBanco();
-        armadilhas[5] = new FilaBanco();
+        armadilhas[0] = new BifeEnvenenado();
+        armadilhas[1] = new BifeEnvenenado();
+        armadilhas[2] = new BifeEnvenenado();
+        armadilhas[3] = new BifeEnvenenado();
+        armadilhas[4] = new BifeEnvenenado();
+        armadilhas[5] = new BifeEnvenenado();
         return armadilhas;
     }
 
