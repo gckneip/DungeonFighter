@@ -6,7 +6,6 @@ import dungeonfighter.entidades.personagens.Inimigo;
 import dungeonfighter.entidades.personagens.MineDog;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.armadilhas.BifeEnvenenado;
-import dungeonfighter.entidades.personagens.Bruxo;
 import dungeonfighter.entidades.itens.*;
 import dungeonfighter.entidades.personagens.Muttley;
 import dungeonfighter.entidades.personagens.Peludinho;

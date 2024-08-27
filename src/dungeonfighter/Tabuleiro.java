@@ -25,6 +25,10 @@ public class Tabuleiro extends JPanel {
     private int yAnterior;
     private int dicas;
 
+    public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens, Celula[][] celulas) {
+
+    }
+
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
         this.dicas = 3;
         celulas = new Celula[8][8];
@@ -61,12 +65,11 @@ public class Tabuleiro extends JPanel {
         // -------------------------- TABULEIRO
         // --------------------------////////////////
 
+        // -------------------------------- MENU ---------------------------
         menu = new JPanel();
         menu.setBackground(Color.BLUE);
         menu.setLayout(new GridBagLayout());
-
         menu.setPreferredSize(new Dimension(200, 800));
-        /////////////////////////////////
 
         JLabel nomeLabel = new JLabel("Nome: ");
         GridBagConstraints gbcNomeLabel = new GridBagConstraints();
@@ -114,8 +117,6 @@ public class Tabuleiro extends JPanel {
         inventarioPanel.add(inventario, gbcInventario);
         menu.add(inventarioPanel, gbcInventarioPanel);
 
-        /////////////////////////////////
-
         imagePanel = new JPanel();
         imagePanel.setBackground(Color.black);
         imagePanel.setLayout(new GridBagLayout());
@@ -126,8 +127,6 @@ public class Tabuleiro extends JPanel {
         gbcImagePanel.weighty = 2.0;
         gbcImagePanel.fill = GridBagConstraints.BOTH;
         menu.add(imagePanel, gbcImagePanel);
-
-        /////////////////////////////////
 
         vidaLabel = new JLabel("Vida: ");
         GridBagConstraints gbcVidaLabel = new GridBagConstraints();
@@ -209,11 +208,12 @@ public class Tabuleiro extends JPanel {
         infoPanel.add(podeMover, gbcPodeMover);
 
         menu.add(infoPanel, gbcInfoPanel);
-        /////////////////////////////////
 
         gbc.gridx = 1;
         gbc.weightx = 0.3;
         add(menu, gbc);
+
+        // -------------------------------- MENU ---------------------------
 
         setVisible(true);
     }
@@ -221,8 +221,11 @@ public class Tabuleiro extends JPanel {
     // ----------------Métodos chamados pela BATALHA----------------
 
     public void usarDica() {
+        resetMouseListener(jogador.getPosicaoY(), jogador.getPosicaoX());
+
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
+                celulas[row][col].activateMouseListener();// modifica ponteiro do mouse
                 int finalCol = col;
                 celulas[row][col].addMouseListener(new MouseAdapter() {
                     @Override
@@ -230,7 +233,6 @@ public class Tabuleiro extends JPanel {
                         verificarColuna(finalCol);
                     }
                 });
-                celulas[row][col].activateMouseListener();
             }
         }
     }
@@ -248,8 +250,7 @@ public class Tabuleiro extends JPanel {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                celulas[i][j].removeMouseListener(celulas[i][j].getMouseListeners()[0]);
-                celulas[i][j].deactivateMouseListener();
+                removeMouseListenerFromCell(i, j);
             }
         }
 
@@ -258,15 +259,14 @@ public class Tabuleiro extends JPanel {
 
     public void fugir() {
         JOptionPane.showMessageDialog(null, "Você fugiu da batalha!");
+        resetMouseListener(jogador.getPosicaoY(), jogador.getPosicaoX());
         celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].remove(jogador);
-        resetMouseListener(jogador.getPosicaoX(), jogador.getPosicaoY());
         celulas[yAnterior][xAnterior].add(jogador, BorderLayout.CENTER);
         celulas[yAnterior][xAnterior].revalidate();
         celulas[yAnterior][xAnterior].repaint();
         jogador.setPodeMover(false);
         jogador.mover(yAnterior, xAnterior);
         setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
-        // moverPersonagem(yAnterior, xAnterior);
     }
 
     // ----------------Métodos chamados pela BATALHA----------------
@@ -358,7 +358,7 @@ public class Tabuleiro extends JPanel {
                 JOptionPane.showMessageDialog(null, "Você caiu em uma armadilha! Dano: 1 ");
                 armadilha.darDano(jogo.getHeroi());
                 celulaAtual.setEntidade(null);
-                atualizarMenu(); // Update menu after taking damage
+                atualizarMenu();
             }
         }
     }
