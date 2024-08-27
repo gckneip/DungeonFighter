@@ -1,5 +1,7 @@
 package dungeonfighter.menu;
 
+import dungeonfighter.DungeonFighter;
+import dungeonfighter.entidades.personagens.scoobyLoo;
 import java.awt.*;
 import javax.swing.*;
 
@@ -70,5 +72,6 @@ public class Menu extends JPanel {
     }
 
     private void debug() {
+        DungeonFighter.getInstanceDungeonFighter().iniciarBatalha(new scoobyLoo());
     }
 }

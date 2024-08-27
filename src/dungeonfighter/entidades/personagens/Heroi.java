@@ -16,7 +16,7 @@ public abstract class Heroi extends Personagem {
         this.vidaMaxima = vida;
     }
 
-    public abstract void especial(Personagem alvo);
+    public abstract int especial(Personagem alvo);
 
     public void curar(int cura) {
         if (super.getVida() < vidaMaxima) {

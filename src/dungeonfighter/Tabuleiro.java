@@ -18,6 +18,8 @@ public class Tabuleiro extends JPanel {
     private JPanel menu;
     private JLabel vidaLabel;
     private JPanel imagePanel;
+    private int xAnterior;
+    private int yAnterior;
 
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
         celulas = new Celula[8][8];
@@ -83,6 +85,15 @@ public class Tabuleiro extends JPanel {
         setVisible(true);
     }
 
+    // ----------------Métodos chamados pela BATALHA----------------
+
+    public void fugir() {
+        JOptionPane.showMessageDialog(null, "Você fugiu da batalha!");
+        celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].remove(jogador);
+        celulas[yAnterior][xAnterior].add(jogador);
+    }
+
+    // ----------------Métodos chamados pela BATALHA----------------
     public void carregarHeroi() {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
         this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone());
@@ -108,6 +119,10 @@ public class Tabuleiro extends JPanel {
         celulas[y][x].repaint();
         celulas[y][x].setBackground(Color.white);
         resetMouseListener(y, x);
+        // salva posição anterior do herói para o caso de ele fugir de uma eventual
+        // batalha
+        this.xAnterior = x;
+        this.yAnterior = y;
 
         this.jogador.mover(row, col);
         setCelulasClicaveis(row, col);
@@ -128,8 +143,7 @@ public class Tabuleiro extends JPanel {
         if (entidade != null) {
             if (entidade instanceof Inimigo) {
                 Inimigo inimigo = (Inimigo) entidade;
-                jogo.iniciaBatalha(inimigo);
-
+                jogo.iniciarBatalha(inimigo);
             }
             if (entidade instanceof Elixir) {
                 Elixir elixir = (Elixir) entidade;

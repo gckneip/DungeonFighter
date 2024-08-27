@@ -1,10 +1,12 @@
 package dungeonfighter;
 
+import dungeonfighter.batalha.*;
 import dungeonfighter.entidades.personagens.Heroi;
 import dungeonfighter.entidades.personagens.Inimigo;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.armadilhas.FilaBanco;
 import dungeonfighter.entidades.personagens.Balsa;
+import dungeonfighter.entidades.personagens.Bruxo;
 import dungeonfighter.entidades.personagens.ImpostoDeRenda;
 import dungeonfighter.entidades.itens.*;
 
@@ -15,7 +17,7 @@ import javax.swing.*;
 public class DungeonFighter extends JFrame {
 
     private final Menu menu;
-    private final Batalha batalha;
+    private Batalha batalha;
     private final Tabuleiro tabuleiro;
     private Heroi heroi;
     private static DungeonFighter instanciaDungeonFighter;
@@ -30,7 +32,6 @@ public class DungeonFighter extends JFrame {
         itens = gerarItens();
 
         menu = new Menu();
-        batalha = new Batalha();
         tabuleiro = new Tabuleiro(inimigos, armadilhas, itens);
 
         setLayout(new GridBagLayout());
@@ -42,11 +43,9 @@ public class DungeonFighter extends JFrame {
         gbc.weighty = 1.0;
 
         getContentPane().add(menu, gbc);
-        getContentPane().add(batalha, gbc);
         getContentPane().add(tabuleiro, gbc);
 
         menu.setVisible(true);
-        batalha.setVisible(false);
         tabuleiro.setVisible(false);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +70,6 @@ public class DungeonFighter extends JFrame {
 
     public void iniciarJogo() {
         menu.setVisible(false);
-        batalha.setVisible(false);
         tabuleiro.carregarHeroi();
         tabuleiro.setVisible(true);
     }
@@ -116,5 +114,39 @@ public class DungeonFighter extends JFrame {
     public static void main(String[] args) {
         JFrame jogo = getInstanceDungeonFighter();
         jogo.setVisible(true);
+    }
+
+    public void iniciarBatalha(Inimigo inimigo) {
+        menu.setVisible(false);
+        tabuleiro.setVisible(false);
+
+        batalha = new Batalha(this.heroi, inimigo);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        getContentPane().add(batalha, gbc);
+        batalha.setVisible(true);
+
+        revalidate();
+        repaint();
+    }
+
+    public void finalizarBatalha(boolean ganhou) {
+        if (ganhou) {
+            System.err.println("sexo");
+        } else {
+            tabuleiro.fugir();
+        }
+        batalha.setVisible(false);
+        tabuleiro.setVisible(true);
+    }
+
+    public void gameOver() {
+        System.exit(0);
     }
 }

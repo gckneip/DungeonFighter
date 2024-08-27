@@ -41,13 +41,14 @@ public abstract class Personagem extends Entidade {
         this.ataque = ataque;
     }
 
-    public void atacar(Personagem alvo) {
+    public int atacar(Personagem alvo) {
         int dano = (this.ataque + new Random().nextInt(10)) - alvo.defender();
         if (dano < 0) {
             tomarDano(-dano);
         } else {
             alvo.tomarDano(dano);
         }
+        return dano;
     }
 
     public int defender() {

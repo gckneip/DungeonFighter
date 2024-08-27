@@ -9,8 +9,9 @@ public class Guerreiro extends Heroi {
     }
 
     @Override
-    public void especial(Personagem alvo) {
+    public int especial(Personagem alvo) {
         super.setDefesa((int) (getDefesa() + getDefesa() * 0.7));
+        return getDefesa();
     }
 
     public void desfazEspecial() {
