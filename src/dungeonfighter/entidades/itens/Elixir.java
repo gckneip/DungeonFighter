@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 public class Elixir extends ItemDeCura {
 
     public Elixir(boolean visivel, int cura) {
-        super("Elixir", new ImageIcon("elixir.jpg"), visivel, 5);
+        super("Elixir", new ImageIcon("src/dungeonsfighter/assets/elixir.png"), visivel, 5);
     }
-
 }

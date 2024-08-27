@@ -5,12 +5,13 @@ import javax.swing.ImageIcon;
 public class Guerreiro extends Heroi {
 
     public Guerreiro() {
-        super(30, 10, 5, "Guerreiro", new ImageIcon("guerreiro.jpg"), true);
+        super(30, 10, 5, "Guerreiro", new ImageIcon("src/dungeonfighter/assets/guerreiro.png"), true);
     }
 
     @Override
-    public void especial(Personagem alvo) {
+    public int especial(Personagem alvo) {
         super.setDefesa((int) (getDefesa() + getDefesa() * 0.7));
+        return getDefesa();
     }
 
     public void desfazEspecial() {

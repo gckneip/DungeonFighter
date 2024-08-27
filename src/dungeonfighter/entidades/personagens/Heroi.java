@@ -16,7 +16,7 @@ public abstract class Heroi extends Personagem {
         this.vidaMaxima = vida;
     }
 
-    public abstract void especial(Personagem alvo);
+    public abstract int especial(Personagem alvo);
 
     public void curar(int cura) {
         if (super.getVida() < vidaMaxima) {
@@ -50,5 +50,9 @@ public abstract class Heroi extends Personagem {
 
     public void morrer() {
         super.setVida(0);
+    }
+
+    public ImageIcon getIcone() {
+        return super.getIcone();
     }
 }

@@ -9,8 +9,9 @@ public class Bruxo extends Heroi {
     }
 
     @Override
-    public void especial(Personagem alvo) {
+    public int especial(Personagem alvo) {
         int dano = super.getAtaque() * 2;
         alvo.setVida(alvo.getVida() - dano);
+        return dano;
     }
 }
