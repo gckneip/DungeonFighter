@@ -7,6 +7,7 @@ import java.awt.*;
 public class Jogador extends JPanel {
     private int posicaoX;
     private int posicaoY;
+    private boolean podeMover = false;
 
     public Jogador(int posicaoX, int posicaoY, ImageIcon imageIcon) {
         setLayout(new GridBagLayout());
@@ -55,5 +56,13 @@ public class Jogador extends JPanel {
     public void mover(int y, int x) {
         this.posicaoX = x;
         this.posicaoY = y;
+    }
+
+    public void setPodeMover(boolean podeMover) {
+        this.podeMover = podeMover;
+    }
+
+    public boolean getPodeMover() {
+        return podeMover;
     }
 }
