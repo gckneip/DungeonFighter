@@ -21,16 +21,76 @@ public class Tabuleiro extends JPanel {
     private JLabel ataqueLabel;
     private JLabel defesaLabel;
     private JPanel imagePanel;
+    private Inimigo[] inimigos;
+    private Armadilha[] armadilhas;
+    private Item[] itens;
     private int xAnterior;
     private int yAnterior;
     private int dicas;
 
-    public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens, Celula[][] celulas) {
+    public Tabuleiro(Tabuleiro original) {
+        this.dicas = original.dicas;
+        this.inimigos = original.inimigos;
+        this.armadilhas = original.armadilhas;
+        this.itens = original.itens;
+
+        celulas = new Celula[8][8];
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JPanel tabuleiro = new JPanel();
+        tabuleiro.setLayout(new GridLayout(8, 8));
+        tabuleiro.setPreferredSize(new Dimension(800, 800));
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                celulas[row][col] = new Celula();
+                celulas[row][col].setBackground(original.celulas[row][col].getBackground());
+                celulas[row][col].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
+                celulas[row][col].setLayout(new BorderLayout());
+                celulas[row][col].setEntidade(original.celulas[row][col].getEntidade());
+                tabuleiro.add(celulas[row][col]);
+            }
+        }
+
+        setCelulasClicaveis(0, 0);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.7;
+        gbc.weighty = 1.0;
+        add(tabuleiro, gbc);
+        // this.dicas = original.dicas;
+        // this.celulas = new
+        // Celula[original.celulas.length][original.celulas[0].length];
+        // for (int row = 0; row < original.celulas.length; row++) {
+        // for (int col = 0; col < original.celulas[0].length; col++) {
+        // this.celulas[row][col] = new Celula();
+        // this.celulas[row][col].setBackground(original.celulas[row][col].getBackground());
+        // this.celulas[row][col].setBorder(original.celulas[row][col].getBorder());
+        // this.celulas[row][col].setLayout(new BorderLayout());
+        // this.celulas[row][col].setEntidade(original.celulas[row][col].getEntidade());
+        // }
+        // }
+
+        // this.jogador = original.jogador;
+        // this.jogo = original.jogo;
+        // this.menu = original.menu;
+        // this.vidaLabel = original.vidaLabel;
+        // this.ataqueLabel = original.ataqueLabel;
+        // this.defesaLabel = original.defesaLabel;
+        // this.imagePanel = original.imagePanel;
+        // this.xAnterior = original.xAnterior;
+        // this.yAnterior = original.yAnterior;
 
     }
 
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
         this.dicas = 3;
+        this.inimigos = inimigos;
+        this.armadilhas = armadilhas;
+        this.itens = itens;
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -61,7 +121,7 @@ public class Tabuleiro extends JPanel {
         gbc.weighty = 1.0;
         add(tabuleiro, gbc);
 
-        posicionarEntidades(inimigos, armadilhas, itens);
+        posicionarEntidades(this.inimigos, this.armadilhas, this.itens);
         // -------------------------- TABULEIRO
         // --------------------------////////////////
 
@@ -171,6 +231,9 @@ public class Tabuleiro extends JPanel {
         gbcDicaButton.weighty = 1.0;
 
         JButton sairButton = new JButton("Sair");
+        sairButton.addActionListener(e -> {
+            sair();
+        });
         GridBagConstraints gbcSairButton = new GridBagConstraints();
         gbcSairButton.gridx = 2;
         gbcSairButton.gridy = 1;
@@ -218,45 +281,18 @@ public class Tabuleiro extends JPanel {
         setVisible(true);
     }
 
-    // ----------------Métodos chamados pela BATALHA----------------
-
-    public void usarDica() {
-        resetMouseListener(jogador.getPosicaoY(), jogador.getPosicaoX());
-
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                celulas[row][col].activateMouseListener();// modifica ponteiro do mouse
-                int finalCol = col;
-                celulas[row][col].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        verificarColuna(finalCol);
-                    }
-                });
-            }
-        }
+    public void sair() {
     }
 
-    public void verificarColuna(int col) {
-        int nArmdilhas = 0;
-        for (int row = 0; row < 8; row++) {
-            if (celulas[row][col].getEntidade() != null) {
-                if (celulas[row][col].getEntidade() instanceof Armadilha) {
-                    nArmdilhas++;
-                }
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Há " + nArmdilhas + " armadilhas na coluna " + col);
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                removeMouseListenerFromCell(i, j);
-            }
-        }
-
-        setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
-    }
-
+    /*
+     * ====================
+     * fugir
+     * 
+     * Método que trata da situação em que o jogador decide fugir da batalha
+     * Este método reseta as células clicáveis e move o jogador para a célula
+     * anterior
+     * ====================
+     */
     public void fugir() {
         JOptionPane.showMessageDialog(null, "Você fugiu da batalha!");
         resetMouseListener(jogador.getPosicaoY(), jogador.getPosicaoX());
@@ -269,8 +305,14 @@ public class Tabuleiro extends JPanel {
         setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
     }
 
-    // ----------------Métodos chamados pela BATALHA----------------
-
+    /*
+     * ====================
+     * carregarHeroi
+     * 
+     * Método que carrega o Herói no tabuleiro;
+     * Este método é chamado pelo método iniciarJogo da classe DungeonFighter
+     * ====================
+     */
     public void carregarHeroi() {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
         this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone());
@@ -278,6 +320,13 @@ public class Tabuleiro extends JPanel {
         atualizarMenu();
     }
 
+    /*
+     * ====================
+     * atualizarMenu
+     * 
+     * Método que atualiza as informações do menu do jogo
+     * ====================
+     */
     private void atualizarMenu() {
         if (jogo != null && jogo.getHeroi() != null) {
             vidaLabel.setText("Vida: " + jogo.getHeroi().getVida());
@@ -303,6 +352,15 @@ public class Tabuleiro extends JPanel {
         }
     }
 
+    /*
+     * ====================
+     * moverPersonagem
+     * 
+     * Método que move o Herói para a célula na posição (row, col)
+     * atualizando as células clicáveis e, ao final, chamando o método
+     * verificarSituacaoJogo
+     * ====================
+     */
     public void moverPersonagem(int row, int col) {
         if (!jogador.getPodeMover()) {
             return;
@@ -315,8 +373,7 @@ public class Tabuleiro extends JPanel {
         celulas[y][x].repaint();
         celulas[y][x].setBackground(Color.white);
         resetMouseListener(y, x);
-        // salva posição anterior do herói para o caso de ele fugir de uma eventual
-        // batalha
+
         this.xAnterior = x;
         this.yAnterior = y;
 
@@ -329,9 +386,18 @@ public class Tabuleiro extends JPanel {
 
         verificarSituacaoJogo(celulas[row][col]);
         jogador.setPodeMover(false);
-        atualizarMenu(); // Update menu after moving
+        atualizarMenu();
     }
 
+    /*
+     * ====================
+     * verificarSituacaoJogo
+     * 
+     * Método que verifica se o Herói se moveu para uma célula que já possui alguma
+     * entidade
+     * e trata a situação de acordo com o tipo de entidade
+     * ====================
+     */
     public void verificarSituacaoJogo(Celula celulaAtual) {
         Entidade entidade = celulaAtual.getEntidade();
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
@@ -363,6 +429,13 @@ public class Tabuleiro extends JPanel {
         }
     }
 
+    /*
+     * ====================
+     * setCelulasClicaveis
+     * 
+     * Método que seta as células clicáveis ao redor da célula atual
+     * ====================
+     */
     void setCelulasClicaveis(int row, int col) {
         if (row - 1 >= 0) {
             setMouseListener(row - 1, col);
@@ -378,6 +451,14 @@ public class Tabuleiro extends JPanel {
         }
     }
 
+    /*
+     * ====================
+     * setMouseListener
+     * 
+     * Método que seta o MouseListener para a célula na posição (row, col);
+     * Torna a célula clicável e modifica o ponteiro do mouse ao passar por cima
+     * ====================
+     */
     void setMouseListener(int row, int col) {
         celulas[row][col].addMouseListener(new MouseAdapter() {
             @Override
@@ -388,6 +469,14 @@ public class Tabuleiro extends JPanel {
         celulas[row][col].activateMouseListener();
     }
 
+    /*
+     * ====================
+     * resetMouseListener
+     * 
+     * Método que remove o MouseListener da célula na posição (row, col) e
+     * das células ao redor dela
+     * ====================
+     */
     void resetMouseListener(int row, int col) {
         removeMouseListenerFromCell(row, col);
 
@@ -405,6 +494,13 @@ public class Tabuleiro extends JPanel {
         }
     }
 
+    /*
+     * ====================
+     * removeMouseListenerFromCell
+     * 
+     * Método que remove os Mouse listeners da célula na posição (row, col)
+     * ====================
+     */
     private void removeMouseListenerFromCell(int row, int col) {
         Celula cell = celulas[row][col];
         if (cell.getMouseListeners().length > 0) {
@@ -413,6 +509,13 @@ public class Tabuleiro extends JPanel {
         }
     }
 
+    /*
+     * ====================
+     * posicionarEntidades
+     * 
+     * Posicionamento das ENTIDADES no tabuleiro
+     * ====================
+     */
     public void posicionarEntidades(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
         int[] xInimigos = new int[7];
         Random random = new Random();
@@ -448,5 +551,47 @@ public class Tabuleiro extends JPanel {
                 i--;
             }
         }
+    }
+
+    /*
+     * ====================
+     * Funcionamento da DICA
+     * ====================
+     */
+    public void usarDica() {
+        resetMouseListener(jogador.getPosicaoY(), jogador.getPosicaoX());
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                celulas[row][col].activateMouseListener();// modifica ponteiro do mouse
+                int finalCol = col;
+                celulas[row][col].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        verificarColuna(finalCol);
+                    }
+                });
+            }
+        }
+    }
+
+    public void verificarColuna(int col) {
+        int nArmdilhas = 0;
+        for (int row = 0; row < 8; row++) {
+            if (celulas[row][col].getEntidade() != null) {
+                if (celulas[row][col].getEntidade() instanceof Armadilha) {
+                    nArmdilhas++;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Há " + nArmdilhas + " armadilhas na coluna " + col);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                removeMouseListenerFromCell(i, j);
+            }
+        }
+
+        setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
     }
 }

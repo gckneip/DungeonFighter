@@ -21,6 +21,7 @@ public class DungeonFighter extends JFrame {
     private final Menu menu;
     private Batalha batalha;
     private Tabuleiro tabuleiro;
+    private Tabuleiro copiaTabuleiro;
     private Heroi heroi;
     private static DungeonFighter instanciaDungeonFighter;
     private final Inimigo[] inimigos;
@@ -35,6 +36,7 @@ public class DungeonFighter extends JFrame {
 
         menu = new Menu();
         tabuleiro = new Tabuleiro(inimigos, armadilhas, itens);
+        copiaTabuleiro = new Tabuleiro(tabuleiro);
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -46,9 +48,11 @@ public class DungeonFighter extends JFrame {
 
         getContentPane().add(menu, gbc);
         getContentPane().add(tabuleiro, gbc);
+        // getContentPane().add(copiaTabuleiro, gbc);
 
         menu.setVisible(true);
         tabuleiro.setVisible(false);
+        // copiaTabuleiro.setVisible(false);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -73,6 +77,19 @@ public class DungeonFighter extends JFrame {
     public void iniciarJogo() {
         menu.setVisible(false);
         tabuleiro.carregarHeroi();
+        JFrame frameCopiaTabuleiro = new JFrame();
+        frameCopiaTabuleiro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameCopiaTabuleiro.setLocationRelativeTo(null);
+        frameCopiaTabuleiro.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        frameCopiaTabuleiro.add(copiaTabuleiro, gbc);
+        frameCopiaTabuleiro.setSize(500, 500);
+        frameCopiaTabuleiro.setVisible(true);
         tabuleiro.setVisible(true);
     }
 
