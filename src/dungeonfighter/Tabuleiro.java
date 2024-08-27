@@ -370,7 +370,7 @@ public class Tabuleiro extends JPanel {
         celulas[row][col].repaint();
 
         verificarSituacaoJogo(celulas[row][col]);
-        jogador.setPodeMover(false);
+        // jogador.setPodeMover(false);
         atualizarMenu(); // Update menu after moving
     }
 

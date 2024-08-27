@@ -16,7 +16,7 @@ import java.util.Random;
 import javax.swing.*;
 
 public class DungeonFighter extends JFrame {
-
+    
     private Menu menu;
     private Batalha batalha;
     private Tabuleiro tabuleiro;
@@ -27,15 +27,15 @@ public class DungeonFighter extends JFrame {
     private final Inimigo[] inimigos;
     private final Armadilha[] armadilhas;
     private final Item[] itens;
-
+    
     private DungeonFighter() {
         super("Dungeon Fighter");
         inimigos = gerarInimigos();
         armadilhas = gerarArmadilhas();
         itens = gerarItens();
-
+        
         menu = new Menu();
-
+        
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -43,16 +43,21 @@ public class DungeonFighter extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-
+        
         getContentPane().add(menu, gbc);
-
+        
         menu.setVisible(true);
-
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setSize(new Dimension(800,600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
+    public static void main(String[] args) {
+        JFrame jogo = getInstanceDungeonFighter();
+        jogo.setVisible(true);
+    }
+    
     public static DungeonFighter getInstanceDungeonFighter() {
         if (instanciaDungeonFighter == null) {
             instanciaDungeonFighter = new DungeonFighter();
@@ -63,11 +68,11 @@ public class DungeonFighter extends JFrame {
     public void setHeroi(Heroi heroi) {
         getInstanceDungeonFighter().heroi = heroi;
     }
-
+    
     public void setHeroiAntigo(Heroi heroi) {
         getInstanceDungeonFighter().heroiAntigo = heroi;
     }
-
+    
     public Heroi getHeroi() {
         return getInstanceDungeonFighter().heroi;
     }
@@ -145,10 +150,6 @@ public class DungeonFighter extends JFrame {
         return itens;
     }
 
-    public static void main(String[] args) {
-        JFrame jogo = getInstanceDungeonFighter();
-        jogo.setVisible(true);
-    }
 
     public void iniciarBatalha(Inimigo inimigo) {
         menu.setVisible(false);

@@ -1,13 +1,13 @@
 package dungeonfighter;
 
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
 import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Jogador extends JPanel {
     private int posicaoX;
     private int posicaoY;
-    private boolean podeMover = false;
+    private boolean podeMover = true;
 
     public Jogador(int posicaoX, int posicaoY, ImageIcon imageIcon) {
         setLayout(new GridBagLayout());

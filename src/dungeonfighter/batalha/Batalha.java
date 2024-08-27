@@ -122,7 +122,7 @@ public class Batalha extends JPanel {
     public void atualizarVida() {
         if (heroi.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, "Você morreu. Game Over :(");
-            DungeonFighter.getInstanceDungeonFighter().gameOver();
+            DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();;
         } else if (inimigo.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, inimigo.getNome() + " derrotado! Parabéns!");
             DungeonFighter.getInstanceDungeonFighter().finalizarBatalha(true);
