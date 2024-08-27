@@ -27,6 +27,7 @@ public class DungeonFighter extends JFrame {
     private final Inimigo[] inimigos;
     private final Armadilha[] armadilhas;
     private final Item[] itens;
+    private String nomeJogador;
     
     private DungeonFighter() {
         super("Dungeon Fighter");
@@ -224,5 +225,13 @@ public class DungeonFighter extends JFrame {
 
     public void gameOver() {
         System.exit(0);
+    }
+
+    public void setNomeJogador(String nome) {
+        nomeJogador = nome;
+    }
+
+    public String getNomeJogador() {
+        return nomeJogador;
     }
 }
