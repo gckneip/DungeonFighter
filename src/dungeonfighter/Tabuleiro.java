@@ -1,16 +1,15 @@
 package dungeonfighter;
 
-import javax.swing.*;
 import dungeonfighter.entidades.Entidade;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.itens.Elixir;
 import dungeonfighter.entidades.itens.Item;
 import dungeonfighter.entidades.personagens.Inimigo;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.*;
 
 public class Tabuleiro extends JPanel {
     private Celula[][] celulas;
@@ -24,7 +23,16 @@ public class Tabuleiro extends JPanel {
     private int xAnterior;
     private int yAnterior;
 
+    private Inimigo[] inimigos;
+    private Armadilha[] armadilhas;
+    private Item[] itens;
+
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
+
+        this.inimigos = inimigos;
+        this.armadilhas = armadilhas;
+        this.itens = itens;
+
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -162,6 +170,40 @@ public class Tabuleiro extends JPanel {
         gbcDicaButton.weighty = 1.0;
 
         JButton sairButton = new JButton("Sair");
+        sairButton.addActionListener(e -> {
+            JDialog dialog = new JDialog(DungeonFighter.getInstanceDungeonFighter(), "Sair", true);
+            dialog.setSize(200, 100);
+            dialog.setLayout(new FlowLayout());
+
+            // Create two buttons
+            JButton button1 = new JButton("Reiniciar jogo");
+            JButton button2 = new JButton("Novo jogo");
+
+            dialog.add(button1);
+            dialog.add(button2);
+
+            button1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
+                    dialog.dispose();
+                }
+            });
+    
+            button2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DungeonFighter.getInstanceDungeonFighter().novoJogo();
+                    dialog.dispose();
+                }
+            });
+
+            // Position the dialog in the center of the parent frame
+            dialog.setLocationRelativeTo(DungeonFighter.getInstanceDungeonFighter());
+
+            // Make the dialog visible
+            dialog.setVisible(true);
+        });
         GridBagConstraints gbcSairButton = new GridBagConstraints();
         gbcSairButton.gridx = 2;
         gbcSairButton.gridy = 1;
