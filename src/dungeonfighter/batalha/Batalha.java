@@ -4,6 +4,7 @@ import dungeonfighter.DungeonFighter;
 import dungeonfighter.entidades.itens.Item;
 import dungeonfighter.entidades.itens.ItemDeCura;
 import dungeonfighter.entidades.personagens.*;
+import dungeonfighter.exceptions.OutOfSpecialsException;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ public class Batalha extends JPanel {
     private final PainelAcoes painelAcoes;
     private final Heroi heroi;
     private final Inimigo inimigo;
+    private int especialBuffer = 0;
 
     public Batalha(Heroi heroi, Inimigo inimigo) {
 
@@ -69,9 +71,16 @@ public class Batalha extends JPanel {
         atualizarVida();
     }
 
-    public void especial() {
+    public void especial() throws OutOfSpecialsException {
         int danoHeroi = heroi.especial(inimigo);
         int danoInimigo = inimigo.atacar(heroi);
+
+        if (this.especialBuffer > 0) {
+            throw new OutOfSpecialsException("Aguarde mais " + (especialBuffer) + " turnos para usar o especial novamente.");
+        } else {
+            this.especialBuffer = 4;
+        }
+
         if (heroi instanceof Guerreiro) {
             JOptionPane.showMessageDialog(null,
                     heroi.getNome() + " usou ataque especial e aumentou sua defesa para " + danoHeroi + ".\n");
@@ -128,5 +137,6 @@ public class Batalha extends JPanel {
             DungeonFighter.getInstanceDungeonFighter().finalizarBatalha(true);
         }
         painelPersonagens.atualizarVida(heroi, inimigo);
+        this.especialBuffer = Math.max(0, this.especialBuffer - 1);
     }
 }

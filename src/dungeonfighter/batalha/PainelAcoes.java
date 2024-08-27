@@ -1,5 +1,6 @@
 package dungeonfighter.batalha;
 
+import dungeonfighter.exceptions.OutOfSpecialsException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -59,7 +60,11 @@ public class PainelAcoes extends JPanel implements ActionListener {
         if (e.getSource() == botaoAtacar) {
             batalha.atacar();
         } else if (e.getSource() == botaoEspecial) {
-            batalha.especial();
+            try {
+                batalha.especial();
+            } catch (OutOfSpecialsException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
         } else if (e.getSource() == botaoUsarItem) {
             batalha.usarItem();
         } else if (e.getSource() == botaoFugir) {

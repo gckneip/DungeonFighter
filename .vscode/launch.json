@@ -9,6 +9,13 @@
             "name": "DungeonFighter",
             "request": "launch",
             "mainClass": "dungeonfighter.DungeonFighter",
+            "projectName": "DungeonFighter_10f5ef2a"
+        },
+        {
+            "type": "java",
+            "name": "DungeonFighter",
+            "request": "launch",
+            "mainClass": "dungeonfighter.DungeonFighter",
             "projectName": "DungeonFighter_a99e9005"
         },
         {
