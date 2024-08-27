@@ -1,27 +1,25 @@
 package dungeonfighter;
 
 import javax.swing.*;
-
 import dungeonfighter.entidades.Entidade;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.itens.Elixir;
 import dungeonfighter.entidades.itens.Item;
-import dungeonfighter.entidades.personagens.ImpostoDeRenda;
 import dungeonfighter.entidades.personagens.Inimigo;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Tabuleiro extends JPanel {
-    private Celula[][] celulas; // 2D array to store the grid of Celula objects
+    private Celula[][] celulas;
     private Jogador jogador;
     private DungeonFighter jogo;
     private JPanel menu;
+    private JLabel vidaLabel;
+    private JPanel imagePanel;
 
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
-        // Initialize the 2D array with dimensions 8x8
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -30,14 +28,11 @@ public class Tabuleiro extends JPanel {
         tabuleiro.setLayout(new GridLayout(8, 8));
         tabuleiro.setPreferredSize(new Dimension(800, 800));
 
-        // Create the 8x8 grid of Celula objects
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 celulas[row][col] = new Celula();
-                celulas[row][col].setBackground(Color.RED); // Set background color
+                celulas[row][col].setBackground(Color.RED);
                 celulas[row][col].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
-
-                // Add the cell to the grid layout
                 tabuleiro.add(celulas[row][col]);
             }
         }
@@ -52,14 +47,40 @@ public class Tabuleiro extends JPanel {
         add(tabuleiro, gbc);
 
         posicionarEntidades(inimigos, armadilhas, itens);
-        this.menu = new JPanel();
+
+        menu = new JPanel();
         menu.setBackground(Color.BLUE);
+        menu.setLayout(new GridBagLayout());
         menu.setPreferredSize(new Dimension(200, 800));
+        GridBagConstraints menuGbc = new GridBagConstraints();
+        menuGbc.gridx = 0;
+        menuGbc.gridy = 0;
+        menuGbc.fill = GridBagConstraints.HORIZONTAL;
+        menuGbc.weightx = 1.0;
+        menuGbc.insets = new Insets(5, 5, 5, 5);
+
+        vidaLabel = new JLabel("Vida: 0");
+        menu.add(vidaLabel, menuGbc);
+
+        imagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (jogo != null && jogo.getHeroi() != null) {
+                    Image scaledImage = jogo.getHeroi().getIcone().getImage();
+                    g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        imagePanel.setPreferredSize(new Dimension(200, 200));
+        menuGbc.gridy = 1;
+        menu.add(imagePanel, menuGbc);
 
         gbc.gridx = 1;
         gbc.weightx = 0.3;
         add(menu, gbc);
-        setVisible(true); // Make the JFrame visible
+
+        setVisible(true);
     }
 
     public void carregarHeroi() {
@@ -68,22 +89,17 @@ public class Tabuleiro extends JPanel {
         celulas[0][0].add(jogador);
         celulas[0][0].setLayout(new BorderLayout());
 
-        JLabel vida = new JLabel("Vida: " + jogo.getHeroi().getVida());
-        JPanel imagePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Image scaledImage = jogo.getHeroi().getIcone().getImage();
-                g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        this.menu.add(vida);
-        this.menu.add(imagePanel);
+        atualizarMenu();
+    }
 
+    private void atualizarMenu() {
+        if (jogo != null && jogo.getHeroi() != null) {
+            vidaLabel.setText("Vida: " + jogo.getHeroi().getVida());
+            imagePanel.repaint(); // Refresh the image
+        }
     }
 
     public void moverPersonagem(int row, int col) {
-        // Remove the image from the current cell
         int x = this.jogador.getPosicaoX();
         int y = this.jogador.getPosicaoY();
 
@@ -93,18 +109,16 @@ public class Tabuleiro extends JPanel {
         celulas[y][x].setBackground(Color.white);
         resetMouseListener(y, x);
 
-        // Add the image to the new cell
         this.jogador.mover(row, col);
         setCelulasClicaveis(row, col);
-        // calcular as células clicáveis
 
         celulas[row][col].add(this.jogador);
         celulas[row][col].setLayout(new BorderLayout());
-        // celulas[row][col].add(jogador, BorderLayout.CENTER);
         celulas[row][col].revalidate();
         celulas[row][col].repaint();
 
         verificarSituacaoJogo(celulas[row][col]);
+        atualizarMenu(); // Update menu after moving
     }
 
     public void verificarSituacaoJogo(Celula celulaAtual) {
@@ -112,9 +126,11 @@ public class Tabuleiro extends JPanel {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
 
         if (entidade != null) {
-            // if (entidade instanceof Inimigo) {
-            // jogo.iniciarBatalha(Inimigo.class.cast(entidade));
-            // }
+            if (entidade instanceof Inimigo) {
+                Inimigo inimigo = (Inimigo) entidade;
+                jogo.iniciaBatalha(inimigo);
+
+            }
             if (entidade instanceof Elixir) {
                 Elixir elixir = (Elixir) entidade;
                 JOptionPane.showMessageDialog(null, "Você encontrou um elixir! Cura: " + elixir.getCura());
@@ -132,35 +148,30 @@ public class Tabuleiro extends JPanel {
                 JOptionPane.showMessageDialog(null, "Você caiu em uma armadilha! Dano: 1 ");
                 armadilha.darDano(jogo.getHeroi());
                 celulaAtual.setEntidade(null);
+                atualizarMenu(); // Update menu after taking damage
             }
         }
     }
 
     void setCelulasClicaveis(int row, int col) {
         if (row - 1 >= 0) {
-            // celulas[row - 1][col].activateMouseListener();
             setMouseListener(row - 1, col);
         }
         if (row + 1 < 8) {
-            // celulas[row + 1][col].activateMouseListener();
             setMouseListener(row + 1, col);
         }
         if (col - 1 >= 0) {
-            // celulas[row][col - 1].activateMouseListener();
             setMouseListener(row, col - 1);
         }
         if (col + 1 < 8) {
-            // celulas[row][col + 1].activateMouseListener();
             setMouseListener(row, col + 1);
         }
-
     }
 
     void setMouseListener(int row, int col) {
         celulas[row][col].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Action when a cell is clicked
                 moverPersonagem(row, col);
             }
         });
@@ -168,7 +179,6 @@ public class Tabuleiro extends JPanel {
     }
 
     void resetMouseListener(int row, int col) {
-        // Deactivate and remove the mouse listener from the current cell
         removeMouseListenerFromCell(row, col);
 
         if (row - 1 >= 0) {
@@ -194,7 +204,6 @@ public class Tabuleiro extends JPanel {
     }
 
     public void posicionarEntidades(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
-
         int[] xInimigos = new int[7];
 
         for (int i = 0; i < 7; i++) {
@@ -207,7 +216,6 @@ public class Tabuleiro extends JPanel {
         for (int i = 0; i < 7; i++) {
             celulas[i][xInimigos[i]].setEntidade(inimigos[i]);
             celulas[i][xInimigos[i]].setBackground(Color.black);
-            ;
         }
         for (int i = 0; i < armadilhas.length; i++) {
             int x = (int) (Math.random() * 8);

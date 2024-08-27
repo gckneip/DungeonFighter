@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public class Guerreiro extends Heroi {
 
     public Guerreiro() {
-        super(30, 10, 5, "Guerreiro", new ImageIcon("guerreiro.jpg"), true);
+        super(30, 10, 5, "Guerreiro", new ImageIcon("src/dungeonfighter/entidades/personagens/guerreiro.jpeg"), true);
     }
 
     @Override
