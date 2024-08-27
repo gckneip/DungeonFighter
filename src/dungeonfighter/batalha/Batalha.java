@@ -58,7 +58,7 @@ public class Batalha extends JPanel {
                     heroi.getNome() + " atacou " + inimigo.getNome() + " com " + danoHeroi + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    heroi.getNome() + " errou o ataque e sofreu" + danoHeroi * (-1) + "de dano.\n");
+                    heroi.getNome() + " errou o ataque e sofreu " + danoHeroi * (-1) + " de dano.\n");
         }
 
         if (danoInimigo > 0) {
@@ -66,7 +66,7 @@ public class Batalha extends JPanel {
                     inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
     }
@@ -95,7 +95,7 @@ public class Batalha extends JPanel {
                     inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
     }
@@ -118,7 +118,7 @@ public class Batalha extends JPanel {
                     inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
 
