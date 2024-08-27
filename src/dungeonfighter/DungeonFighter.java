@@ -3,22 +3,25 @@ package dungeonfighter;
 import dungeonfighter.batalha.*;
 import dungeonfighter.entidades.personagens.Heroi;
 import dungeonfighter.entidades.personagens.Inimigo;
+import dungeonfighter.entidades.personagens.MineDog;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.armadilhas.FilaBanco;
-import dungeonfighter.entidades.personagens.Balsa;
 import dungeonfighter.entidades.personagens.Bruxo;
-import dungeonfighter.entidades.personagens.ImpostoDeRenda;
 import dungeonfighter.entidades.itens.*;
-
+import dungeonfighter.entidades.personagens.Muttley;
+import dungeonfighter.entidades.personagens.Peludinho;
+import dungeonfighter.entidades.personagens.scoobyLoo;
 import dungeonfighter.menu.Menu;
 import java.awt.*;
 import javax.swing.*;
+
+import java.util.Random;
 
 public class DungeonFighter extends JFrame {
 
     private final Menu menu;
     private Batalha batalha;
-    private final Tabuleiro tabuleiro;
+    private Tabuleiro tabuleiro;
     private Heroi heroi;
     private static DungeonFighter instanciaDungeonFighter;
     private final Inimigo[] inimigos;
@@ -76,14 +79,27 @@ public class DungeonFighter extends JFrame {
 
     public Inimigo[] gerarInimigos() {
         Inimigo[] inimigos = new Inimigo[8];
-        inimigos[0] = new Balsa();
-        inimigos[1] = new Balsa();
-        inimigos[2] = new Balsa();
-        inimigos[3] = new ImpostoDeRenda();
-        inimigos[4] = new ImpostoDeRenda();
-        inimigos[5] = new ImpostoDeRenda();
-        inimigos[6] = new ImpostoDeRenda();
-        inimigos[7] = new ImpostoDeRenda();
+        int slaporra;
+        Random random = new Random();
+
+        for (int i = 0; i < 8; i++) {
+            slaporra = random.nextInt(4);
+            switch (slaporra) {
+                case 0:
+                    inimigos[i] = new Muttley();
+                    break;
+                case 1:
+                    inimigos[i] = new Peludinho();
+                    break;
+                case 2:
+                    inimigos[i] = new scoobyLoo();
+                    break;
+                case 3:
+                    inimigos[i] = new MineDog();
+                    break;
+            }
+        }
+
         return inimigos;
     }
 
@@ -143,6 +159,8 @@ public class DungeonFighter extends JFrame {
             tabuleiro.fugir();
         }
         batalha.setVisible(false);
+        getContentPane().remove(batalha);
+        batalha = null;
         tabuleiro.setVisible(true);
     }
 

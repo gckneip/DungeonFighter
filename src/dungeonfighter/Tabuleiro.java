@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Tabuleiro extends JPanel {
     private Celula[][] celulas;
@@ -17,6 +18,8 @@ public class Tabuleiro extends JPanel {
     private DungeonFighter jogo;
     private JPanel menu;
     private JLabel vidaLabel;
+    private JLabel ataqueLabel;
+    private JLabel defesaLabel;
     private JPanel imagePanel;
     private int xAnterior;
     private int yAnterior;
@@ -25,6 +28,9 @@ public class Tabuleiro extends JPanel {
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
+        // -------------------------- TABULEIRO --------------------------
+        // //////////////////
 
         JPanel tabuleiro = new JPanel();
         tabuleiro.setLayout(new GridLayout(8, 8));
@@ -35,6 +41,7 @@ public class Tabuleiro extends JPanel {
                 celulas[row][col] = new Celula();
                 celulas[row][col].setBackground(Color.RED);
                 celulas[row][col].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
+                celulas[row][col].setLayout(new BorderLayout());
                 tabuleiro.add(celulas[row][col]);
             }
         }
@@ -49,11 +56,15 @@ public class Tabuleiro extends JPanel {
         add(tabuleiro, gbc);
 
         posicionarEntidades(inimigos, armadilhas, itens);
+        // -------------------------- TABULEIRO
+        // --------------------------////////////////
 
         menu = new JPanel();
         menu.setBackground(Color.BLUE);
         menu.setLayout(new GridBagLayout());
+
         menu.setPreferredSize(new Dimension(200, 800));
+
         GridBagConstraints menuGbc = new GridBagConstraints();
         menuGbc.gridx = 0;
         menuGbc.gridy = 0;
@@ -62,19 +73,34 @@ public class Tabuleiro extends JPanel {
         menuGbc.insets = new Insets(5, 5, 5, 5);
 
         vidaLabel = new JLabel("Vida: 0");
+        ataqueLabel = new JLabel("Ataque: 0");
+        defesaLabel = new JLabel("Defesa: 0");
         menu.add(vidaLabel, menuGbc);
+        menuGbc.gridy = 1;
+        menu.add(ataqueLabel, menuGbc);
+        menuGbc.gridy = 2;
+        menu.add(defesaLabel, menuGbc);
 
-        imagePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (jogo != null && jogo.getHeroi() != null) {
-                    Image scaledImage = jogo.getHeroi().getIcone().getImage();
+        JPanel inventario = new JPanel();
+        inventario.setLayout(new GridLayout(5, 1));
+        inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
+        menuGbc.gridy = 3;
+        for (int i = 0; i < 5; i++) {
+            JPanel item = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    Image scaledImage = new ImageIcon("src/dungeonfighter/assets/elixir.jpg").getImage();
                     g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
                 }
-            }
-        };
-        imagePanel.setPreferredSize(new Dimension(200, 200));
+            };
+            item.setBackground(Color.white);
+
+            inventario.add(item);
+        }
+        menu.add(inventario, menuGbc);
+
+        imagePanel = new JPanel();
         menuGbc.gridy = 1;
         menu.add(imagePanel, menuGbc);
 
@@ -90,23 +116,43 @@ public class Tabuleiro extends JPanel {
     public void fugir() {
         JOptionPane.showMessageDialog(null, "Você fugiu da batalha!");
         celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].remove(jogador);
-        celulas[yAnterior][xAnterior].add(jogador);
+        celulas[yAnterior][xAnterior].add(jogador, BorderLayout.CENTER);
+        moverPersonagem(yAnterior, xAnterior);
     }
 
     // ----------------Métodos chamados pela BATALHA----------------
+
     public void carregarHeroi() {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
         this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone());
-        celulas[0][0].add(jogador);
-        celulas[0][0].setLayout(new BorderLayout());
-
+        celulas[0][0].add(jogador, BorderLayout.CENTER);
         atualizarMenu();
     }
 
     private void atualizarMenu() {
         if (jogo != null && jogo.getHeroi() != null) {
             vidaLabel.setText("Vida: " + jogo.getHeroi().getVida());
-            imagePanel.repaint(); // Refresh the image
+            ataqueLabel.setText("Ataque: " + jogo.getHeroi().getAtaque());
+            defesaLabel.setText("Defesa: " + jogo.getHeroi().getDefesa());
+            menu.remove(imagePanel);
+            imagePanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    Image scaledImage = jogo.getHeroi().getIcone().getImage();
+                    g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            imagePanel.setPreferredSize(new Dimension(100, 100));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridy = 1;
+            gbc.gridx = 1;
+            gbc.weightx = 1;
+            gbc.weighty = 0.5;
+            menu.add(imagePanel, gbc);
+            menu.revalidate();
+            menu.repaint();
+
         }
     }
 
@@ -114,7 +160,7 @@ public class Tabuleiro extends JPanel {
         int x = this.jogador.getPosicaoX();
         int y = this.jogador.getPosicaoY();
 
-        celulas[y][x].removeAll();
+        celulas[y][x].remove(jogador);
         celulas[y][x].revalidate();
         celulas[y][x].repaint();
         celulas[y][x].setBackground(Color.white);
@@ -127,8 +173,7 @@ public class Tabuleiro extends JPanel {
         this.jogador.mover(row, col);
         setCelulasClicaveis(row, col);
 
-        celulas[row][col].add(this.jogador);
-        celulas[row][col].setLayout(new BorderLayout());
+        celulas[row][col].add(this.jogador, BorderLayout.CENTER);
         celulas[row][col].revalidate();
         celulas[row][col].repaint();
 
@@ -219,7 +264,7 @@ public class Tabuleiro extends JPanel {
 
     public void posicionarEntidades(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
         int[] xInimigos = new int[7];
-
+        Random random = new Random();
         for (int i = 0; i < 7; i++) {
             if (i == 0) {
                 xInimigos[i] = (int) (Math.random() * 7) + 1;
