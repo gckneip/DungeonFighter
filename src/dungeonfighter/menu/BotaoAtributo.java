@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class BotaoAtributo extends JPanel {
     private int valor;
+    private int valorInicial;
     private final JButton botaoMais;
     private final JButton botaoMenos;
     private final JLabel labelValor;
@@ -28,7 +29,7 @@ public class BotaoAtributo extends JPanel {
         });
 
         botaoMenos.addActionListener((ActionEvent e) -> {
-            if (valor > 0) {
+            if (valor > valorInicial) {
                 valor--;
                 atributosMenu.incrementAtributosIniciais();
                 updateValor();
@@ -43,6 +44,7 @@ public class BotaoAtributo extends JPanel {
 
     public void setValorInicial(int valorInicial) {
         valor = valorInicial;
+        this.valorInicial = valorInicial;
         updateValor();
     }
 

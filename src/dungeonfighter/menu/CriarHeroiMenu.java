@@ -121,6 +121,7 @@ public class CriarHeroiMenu extends JPanel {
                 jogo.setHeroi(heroi);
                 jogo.setHeroiAntigo(heroiAntigo);
 
+                DungeonFighter.getInstanceDungeonFighter().setNomeJogador(nomeField.getText());
                 jogo.iniciarJogo();
             }
         } catch (IllegalArgumentException ex) {

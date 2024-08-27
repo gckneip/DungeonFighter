@@ -1,5 +1,6 @@
 package dungeonfighter.batalha;
 
+import dungeonfighter.DungeonFighter;
 import dungeonfighter.entidades.personagens.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,8 +15,8 @@ public class PainelPersonagens extends JPanel{
 
             GridBagConstraints gbc = new GridBagConstraints();
 
-            painelHeroi = new PainelPersonagem(heroi);
-            painelInimigo = new PainelPersonagem(inimigo);
+            painelHeroi = new PainelPersonagem(heroi,DungeonFighter.getInstanceDungeonFighter().getNomeJogador());
+            painelInimigo = new PainelPersonagem(inimigo, inimigo.getNome());
 
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 1.0;

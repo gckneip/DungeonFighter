@@ -33,6 +33,7 @@ public class Tabuleiro extends JPanel {
         this.inimigos = inimigos;
         this.armadilhas = armadilhas;
         this.itens = itens;
+        String nomeJogador = DungeonFighter.getInstanceDungeonFighter().getNomeJogador();
 
         this.dicas = 3;
         celulas = new Celula[8][8];
@@ -76,7 +77,7 @@ public class Tabuleiro extends JPanel {
         menu.setPreferredSize(new Dimension(200, 800));
         /////////////////////////////////
 
-        JLabel nomeLabel = new JLabel("Nome: ");
+        JLabel nomeLabel = new JLabel("Nome: " +nomeJogador);
         GridBagConstraints gbcNomeLabel = new GridBagConstraints();
         gbcNomeLabel.gridx = 0;
         gbcNomeLabel.gridy = 0;
@@ -341,7 +342,7 @@ public class Tabuleiro extends JPanel {
 
     public void carregarHeroi() {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
-        this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone());
+        this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone(),jogo.getNomeJogador());
         celulas[0][0].add(jogador, BorderLayout.CENTER);
         atualizarMenu();
     }

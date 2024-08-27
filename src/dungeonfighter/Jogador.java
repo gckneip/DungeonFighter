@@ -7,10 +7,13 @@ import javax.swing.JPanel;
 public class Jogador extends JPanel {
     private int posicaoX;
     private int posicaoY;
-    private boolean podeMover = true;
+    private boolean podeMover = true;   
+    private final String nome;
 
-    public Jogador(int posicaoX, int posicaoY, ImageIcon imageIcon) {
+    public Jogador(int posicaoX, int posicaoY, ImageIcon imageIcon,String nome) {
         setLayout(new GridBagLayout());
+
+        this.nome = nome;
 
         setBackground(Color.MAGENTA);
 
@@ -64,5 +67,9 @@ public class Jogador extends JPanel {
 
     public boolean getPodeMover() {
         return podeMover;
+    }
+
+    public String getNome(){
+        return this.nome;
     }
 }
