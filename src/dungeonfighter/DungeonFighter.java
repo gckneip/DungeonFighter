@@ -101,6 +101,10 @@ public class DungeonFighter extends JFrame {
         tabuleiro.setVisible(true);
     }
 
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
     public Inimigo[] gerarInimigos() {
         Inimigo[] inimigos = new Inimigo[8];
         int slaporra;

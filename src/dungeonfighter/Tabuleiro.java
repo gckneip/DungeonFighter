@@ -90,11 +90,21 @@ public class Tabuleiro extends JPanel {
         inventario.setLayout(new GridBagLayout());
         inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
         inventario.setBackground(Color.CYAN);
+
+        Image originalImage = new ImageIcon("src/dungeonfighter/assets/elixir.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);        
+        ImageIcon iconElixir = new ImageIcon(originalImage);
+        
         for (int i = 0; i < 5; i++) {
             JPanel item = new JPanel();
             item.setBackground(Color.white);
             item.setBorder(BorderFactory.createLineBorder(Color.black));
-            item.setPreferredSize(new Dimension(30, 30));
+            item.setPreferredSize(new Dimension(50, 50));
+            item.setLayout(new BorderLayout());
+
+            JLabel imagem = new JLabel(iconElixir);
+            item.add(imagem);
+            imagem.setVisible(false);
+            
             GridBagConstraints gbcItem = new GridBagConstraints();
             gbcItem.gridx = i;
             gbcItem.gridy = 0;
@@ -102,6 +112,7 @@ public class Tabuleiro extends JPanel {
             gbcItem.weightx = 1.0;
             inventario.add(item, gbcItem);
         }
+
         GridBagConstraints gbcInventario = new GridBagConstraints();
         gbcInventario.gridx = 0;
         gbcInventario.gridy = 1;
@@ -262,7 +273,22 @@ public class Tabuleiro extends JPanel {
     }
 
     // ----------------Métodos chamados pela BATALHA----------------
-
+    public void updateInventario() {
+        ArrayList<Item> bolsa = jogo.getHeroi().getBolsa();
+        JPanel inventario = (JPanel) ((JPanel) menu.getComponent(0)).getComponent(1);
+    
+        for (int i = 0; i < inventario.getComponentCount(); i++) {
+            JPanel item = (JPanel) inventario.getComponent(i);
+            JLabel imagem = (JLabel) item.getComponent(0);
+            if (i < bolsa.size()) {
+                imagem.setVisible(true);
+            } else {
+                imagem.setVisible(false);
+            }
+            item.revalidate();
+            item.repaint();
+        }
+    }
     public void usarDica() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -326,6 +352,8 @@ public class Tabuleiro extends JPanel {
             vidaLabel.setText("Vida: " + jogo.getHeroi().getVida());
             ataqueLabel.setText("Ataque: " + jogo.getHeroi().getAtaque());
             defesaLabel.setText("Defesa: " + jogo.getHeroi().getDefesa());
+
+            updateInventario();
 
             menu.remove(imagePanel);
             imagePanel = new JPanel() {
@@ -395,6 +423,7 @@ public class Tabuleiro extends JPanel {
                     JOptionPane.showMessageDialog(null, "Sua bolsa está cheia! Descarte um item para pegar o elixir.");
                 }
                 celulaAtual.setEntidade(null);
+                atualizarMenu();                
             }
             if (entidade instanceof Armadilha) {
                 Armadilha armadilha = (Armadilha) entidade;
