@@ -1,10 +1,10 @@
 package dungeonfighter;
 
-import javax.swing.JPanel;
+import dungeonfighter.entidades.Entidade;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import dungeonfighter.entidades.Entidade;
+import javax.swing.JPanel;
 
 public class Celula extends JPanel {
 
