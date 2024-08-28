@@ -64,5 +64,4 @@ public abstract class Personagem extends Entidade {
         return true;
     }
 
-    public abstract void morrer();
 }
