@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import java.util.Random;
 
 public abstract class ArmadilhaAleatoria extends Armadilha {
+    private int dano;
 
     public ArmadilhaAleatoria(String nome, ImageIcon imagem, boolean visivel) {
         super(nome, imagem, visivel);
@@ -13,7 +14,11 @@ public abstract class ArmadilhaAleatoria extends Armadilha {
     @Override
     public boolean darDano(Heroi heroi) {
         Random random = new Random();
-        int dano = random.nextInt(4) + 2;
-        return heroi.tomarDano(dano);
+        this.dano = random.nextInt(5) + 2;
+        return heroi.tomarDano(this.dano);
+    }
+
+    public int getDano() {
+        return dano;
     }
 }

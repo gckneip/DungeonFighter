@@ -16,4 +16,8 @@ public abstract class ArmadilhaFixa extends Armadilha {
         return heroi.tomarDano(this.dano);
     }
 
+    public int getDano() {
+        return dano;
+    }
+
 }

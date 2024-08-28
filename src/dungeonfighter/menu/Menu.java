@@ -70,6 +70,7 @@ public class Menu extends JPanel {
     }
 
     public void novoJogo() {
+        DungeonFighter.getInstanceDungeonFighter().setDebug();
         imagePanel.setVisible(true);
         botoesIniciais.setVisible(true);
         criarHeroiMenu.setVisible(false);
