@@ -7,9 +7,6 @@ import dungeonfighter.entidades.itens.*;
 import dungeonfighter.entidades.personagens.Heroi;
 import dungeonfighter.entidades.personagens.Inimigo;
 import dungeonfighter.entidades.personagens.MineDog;
-import dungeonfighter.entidades.armadilhas.Armadilha;
-import dungeonfighter.entidades.armadilhas.BifeEnvenenado;
-import dungeonfighter.entidades.itens.*;
 import dungeonfighter.entidades.personagens.Muttley;
 import dungeonfighter.entidades.personagens.Peludinho;
 import dungeonfighter.entidades.personagens.scoobyLoo;
@@ -26,7 +23,6 @@ public class DungeonFighter extends JFrame {
     private Tabuleiro tabuleiro;
     private Tabuleiro copiaTabuleiro;
     private Heroi heroi;
-    private Heroi heroiAntigo;
     private static DungeonFighter instanciaDungeonFighter;
     private final Inimigo[] inimigos;
     private final Armadilha[] armadilhas;
@@ -74,10 +70,6 @@ public class DungeonFighter extends JFrame {
 
     public void setHeroi(Heroi heroi) {
         getInstanceDungeonFighter().heroi = heroi;
-    }
-
-    public void setHeroiAntigo(Heroi heroi) {
-        getInstanceDungeonFighter().heroiAntigo = heroi;
     }
 
     public Heroi getHeroi() {
@@ -228,26 +220,6 @@ public class DungeonFighter extends JFrame {
         revalidate();
         repaint();
         menu.novoJogo();
-    }
-
-    public void reiniciarJogo() {
-        tabuleiro.setVisible(false);
-        remove(tabuleiro);
-        heroi = heroiAntigo;
-        tabuleiro = tabuleiroAntigo;
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-
-        getContentPane().add(tabuleiro, gbc);
-        tabuleiro.setVisible(true);
-
-        revalidate();
-        repaint();
     }
 
     public void gameOver() {
