@@ -13,15 +13,16 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
     private tipoHeroi escolhido;
     private EscolhaPersonagemBotao botaoSelecionado;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final ImageIcon background = new ImageIcon("assets/backgroundMadeira.jpg");
 
     public EscolhaPersonagemMenu() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        bruxoButton = new EscolhaPersonagemBotao("Bruxo", "src/dungeonfighter/assets/bruxo.png");
-        guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "src/dungeonfighter/assets/guerreiro.png");
-        arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "src/dungeonfighter/assets/arqueiro.jpg");
+        bruxoButton = new EscolhaPersonagemBotao("Bruxo", "assets/bruxo.png");
+        guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "assets/guerreiro.png");
+        arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "assets/arqueiro.jpg");
 
         addActionListeners();
 
@@ -83,5 +84,13 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         bruxoButton.addActionListener(this);
         guerreiroButton.addActionListener(this);
         arqueiroButton.addActionListener(this);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Image scaledImage = background.getImage();
+        g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
+
     }
 }

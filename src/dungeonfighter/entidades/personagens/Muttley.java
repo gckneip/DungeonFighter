@@ -5,6 +5,6 @@ import javax.swing.ImageIcon;
 
 public class Muttley extends Inimigo {
     public Muttley() {
-        super("Muttley", 7, 3, 6, new ImageIcon("src/dungeonfighter/assets/muttley.jpg"), true, new Elixir(true, 2));
+        super("Muttley", 7, 3, 6, new ImageIcon("assets/muttley.jpg"), true, new Elixir(true, 2));
     }
 }

@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public class Bruxo extends Heroi {
 
     public Bruxo() {
-        super(20, 5, 8, "Bruxo", new ImageIcon("src/dungeonfighter/assets/bruxo.png"), true);
+        super(20, 5, 8, "Bruxo", new ImageIcon("assets/bruxo.png"), true);
     }
 
     @Override

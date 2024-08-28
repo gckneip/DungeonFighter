@@ -14,12 +14,14 @@ public class AtributosMenu extends JPanel {
 
     public AtributosMenu() {
         atributosExtras = 10;
+        setOpaque(false);
 
         botaoAtaque = new BotaoAtributo("Ataque", 0, this);
         botaoDefesa = new BotaoAtributo("Defesa", 0, this);
         botaoVida = new BotaoAtributo("Vida", 0, this);
 
         atributosIniciaisLabel = new JLabel("Atributos Iniciais: " + atributosExtras);
+        atributosIniciaisLabel.setFont(atributosIniciaisLabel.getFont().deriveFont(20.0f));
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
