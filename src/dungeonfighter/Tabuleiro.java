@@ -4,6 +4,7 @@ import dungeonfighter.entidades.Entidade;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.itens.Elixir;
 import dungeonfighter.entidades.itens.Item;
+import dungeonfighter.entidades.personagens.Boss;
 import dungeonfighter.entidades.personagens.Inimigo;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,12 +27,14 @@ public class Tabuleiro extends JPanel {
     private int xAnterior;
     private int yAnterior;
     private int dicas;
+    private Chefao boss;
 
     public Tabuleiro(Tabuleiro original) {
         this.dicas = original.dicas;
         this.inimigos = original.inimigos;
         this.armadilhas = original.armadilhas;
         this.itens = original.itens;
+        String nomeJogador = DungeonFighter.getInstanceDungeonFighter().getNomeJogador();
 
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
@@ -60,12 +63,13 @@ public class Tabuleiro extends JPanel {
         gbc.weightx = 0.7;
         gbc.weighty = 1.0;
         add(tabuleiro, gbc);
+
         menu = new JPanel();
         menu.setBackground(Color.BLUE);
         menu.setLayout(new GridBagLayout());
         menu.setPreferredSize(new Dimension(200, 800));
 
-        JLabel nomeLabel = new JLabel("Nome: ");
+        JLabel nomeLabel = new JLabel("Nome: " + nomeJogador);
         GridBagConstraints gbcNomeLabel = new GridBagConstraints();
         gbcNomeLabel.gridx = 0;
         gbcNomeLabel.gridy = 0;
@@ -78,11 +82,22 @@ public class Tabuleiro extends JPanel {
         inventario.setLayout(new GridBagLayout());
         inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
         inventario.setBackground(Color.CYAN);
+
+        Image originalImage = new ImageIcon("src/dungeonfighter/assets/elixir.png").getImage().getScaledInstance(60, 60,
+                Image.SCALE_SMOOTH);
+        ImageIcon iconElixir = new ImageIcon(originalImage);
+
         for (int i = 0; i < 5; i++) {
             JPanel item = new JPanel();
             item.setBackground(Color.white);
             item.setBorder(BorderFactory.createLineBorder(Color.black));
-            item.setPreferredSize(new Dimension(30, 30));
+            item.setPreferredSize(new Dimension(50, 50));
+            item.setLayout(new BorderLayout());
+
+            JLabel imagem = new JLabel(iconElixir);
+            item.add(imagem);
+            imagem.setVisible(false);
+
             GridBagConstraints gbcItem = new GridBagConstraints();
             gbcItem.gridx = i;
             gbcItem.gridy = 0;
@@ -166,7 +181,38 @@ public class Tabuleiro extends JPanel {
 
         JButton sairButton = new JButton("Sair");
         sairButton.addActionListener(e -> {
-            sair();
+            JDialog dialog = new JDialog(DungeonFighter.getInstanceDungeonFighter(), "Sair", true);
+            dialog.setSize(200, 100);
+            dialog.setLayout(new FlowLayout());
+
+            // Create two buttons
+            JButton button1 = new JButton("Reiniciar jogo");
+            JButton button2 = new JButton("Novo jogo");
+
+            dialog.add(button1);
+            dialog.add(button2);
+
+            button1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.dispose();
+                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
+                }
+            });
+
+            button2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DungeonFighter.getInstanceDungeonFighter().novoJogo();
+                    dialog.dispose();
+                }
+            });
+
+            // Position the dialog in the center of the parent frame
+            dialog.setLocationRelativeTo(DungeonFighter.getInstanceDungeonFighter());
+
+            // Make the dialog visible
+            dialog.setVisible(true);
         });
         GridBagConstraints gbcSairButton = new GridBagConstraints();
         gbcSairButton.gridx = 2;
@@ -210,51 +256,20 @@ public class Tabuleiro extends JPanel {
         gbc.weightx = 0.3;
         add(menu, gbc);
 
-        // -------------------------------- MENU ---------------------------
-
         setVisible(true);
-        // this.dicas = original.dicas;
-        // this.celulas = new
-        // Celula[original.celulas.length][original.celulas[0].length];
-        // for (int row = 0; row < original.celulas.length; row++) {
-        // for (int col = 0; col < original.celulas[0].length; col++) {
-        // this.celulas[row][col] = new Celula();
-        // this.celulas[row][col].setBackground(original.celulas[row][col].getBackground());
-        // this.celulas[row][col].setBorder(original.celulas[row][col].getBorder());
-        // this.celulas[row][col].setLayout(new BorderLayout());
-        // this.celulas[row][col].setEntidade(original.celulas[row][col].getEntidade());
-        // }
-        // }
-
-        // this.jogador = original.jogador;
-        // this.jogo = original.jogo;
-        // this.menu = original.menu;
-        // this.vidaLabel = original.vidaLabel;
-        // this.ataqueLabel = original.ataqueLabel;
-        // this.defesaLabel = original.defesaLabel;
-        // this.imagePanel = original.imagePanel;
-        // this.xAnterior = original.xAnterior;
-        // this.yAnterior = original.yAnterior;
 
     }
 
     public Tabuleiro(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
-
+        this.dicas = 3;
         this.inimigos = inimigos;
         this.armadilhas = armadilhas;
         this.itens = itens;
         String nomeJogador = DungeonFighter.getInstanceDungeonFighter().getNomeJogador();
 
-        this.dicas = 3;
-        this.inimigos = inimigos;
-        this.armadilhas = armadilhas;
-        this.itens = itens;
         celulas = new Celula[8][8];
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
-        // -------------------------- TABULEIRO --------------------------
-        // //////////////////
 
         JPanel tabuleiro = new JPanel();
         tabuleiro.setLayout(new GridLayout(8, 8));
@@ -280,10 +295,7 @@ public class Tabuleiro extends JPanel {
         add(tabuleiro, gbc);
 
         posicionarEntidades(this.inimigos, this.armadilhas, this.itens);
-        // -------------------------- TABULEIRO
-        // --------------------------////////////////
 
-        // -------------------------------- MENU ---------------------------
         menu = new JPanel();
         menu.setBackground(Color.BLUE);
         menu.setLayout(new GridBagLayout());
@@ -416,8 +428,8 @@ public class Tabuleiro extends JPanel {
             button1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
                     dialog.dispose();
+                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
                 }
             });
 
@@ -477,12 +489,36 @@ public class Tabuleiro extends JPanel {
         gbc.weightx = 0.3;
         add(menu, gbc);
 
-        // -------------------------------- MENU ---------------------------
-
         setVisible(true);
     }
 
-    // ----------------Métodos chamados pela BATALHA----------------
+    public void inimigoDerrotado() {
+        Inimigo inimigo = (Inimigo) celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].getEntidade();
+        if (inimigo instanceof Boss) {
+            JOptionPane.showMessageDialog(null, "Você derrotou o Boss! Parabéns!");
+            JOptionPane.showMessageDialog(null, "Você venceu o jogo!");
+            jogo.novoJogo();
+        } else {
+            JOptionPane.showMessageDialog(null, "Você derrotou o inimigo!");
+            Item espolio = inimigo.dropEspolio();
+            celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].setEntidade(null);
+            celulas[jogador.getPosicaoY()][jogador.getPosicaoX()].setEntidade(espolio);
+            Random random = new Random();
+            int update = random.nextInt(3);
+            if (update == 0) {
+                jogo.getHeroi().setAtaque(jogo.getHeroi().getAtaque() + 1);
+                JOptionPane.showMessageDialog(null, "Você ganhou um ponto de ataque!");
+            } else if (update == 1) {
+                jogo.getHeroi().setDefesa(jogo.getHeroi().getDefesa() + 1);
+                JOptionPane.showMessageDialog(null, "Você ganhou um ponto de defesa!");
+            } else {
+                jogo.getHeroi().setVida(jogo.getHeroi().getVida() + 1);
+                JOptionPane.showMessageDialog(null, "Você ganhou um ponto de vida!");
+            }
+            verificarSituacaoJogo(celulas[jogador.getPosicaoY()][jogador.getPosicaoX()]);
+        }
+    }
+
     public void updateInventario() {
         ArrayList<Item> bolsa = jogo.getHeroi().getBolsa();
         JPanel inventario = (JPanel) ((JPanel) menu.getComponent(0)).getComponent(1);
@@ -498,42 +534,6 @@ public class Tabuleiro extends JPanel {
             item.revalidate();
             item.repaint();
         }
-    }
-
-    public void usarDica() {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                int finalCol = col;
-                celulas[row][col].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        verificarColuna(finalCol);
-                    }
-                });
-                celulas[row][col].activateMouseListener();
-            }
-        }
-    }
-
-    public void verificarColuna(int col) {
-        int nArmdilhas = 0;
-        for (int row = 0; row < 8; row++) {
-            if (celulas[row][col].getEntidade() != null) {
-                if (celulas[row][col].getEntidade() instanceof Armadilha) {
-                    nArmdilhas++;
-                }
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Há " + nArmdilhas + " armadilhas na coluna " + col);
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                celulas[i][j].removeMouseListener(celulas[i][j].getMouseListeners()[0]);
-                celulas[i][j].deactivateMouseListener();
-            }
-        }
-
-        setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
     }
 
     /*
@@ -555,6 +555,7 @@ public class Tabuleiro extends JPanel {
         jogador.setPodeMover(false);
         jogador.mover(yAnterior, xAnterior);
         setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
+        atualizarMenu();
     }
 
     /*
@@ -563,7 +564,7 @@ public class Tabuleiro extends JPanel {
      * 
      * Método que carrega o Herói no tabuleiro;
      * Este método é chamado pelo método iniciarJogo da classe DungeonFighter
-     * ====================
+     * ===============getImagem=====
      */
     public void carregarHeroi() {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
@@ -639,8 +640,44 @@ public class Tabuleiro extends JPanel {
         celulas[row][col].repaint();
 
         verificarSituacaoJogo(celulas[row][col]);
-        jogador.setPodeMover(false);
+        // jogador.setPodeMover(false);
         atualizarMenu();
+        if (jogo.getHeroi().getVida() <= 0) {
+
+            JOptionPane.showMessageDialog(null, "Você morreu!");
+
+            JDialog dialog = new JDialog(DungeonFighter.getInstanceDungeonFighter(), "Sair", true);
+            dialog.setSize(200, 100);
+            dialog.setLayout(new FlowLayout());
+
+            // Create two buttons
+            JButton button1 = new JButton("Reiniciar jogo");
+            JButton button2 = new JButton("Novo jogo");
+
+            dialog.add(button1);
+            dialog.add(button2);
+
+            button1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.dispose();
+                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
+                }
+            });
+
+            button2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DungeonFighter.getInstanceDungeonFighter().novoJogo();
+                    dialog.dispose();
+                }
+
+            });
+
+            dialog.setLocationRelativeTo(DungeonFighter.getInstanceDungeonFighter());
+
+            dialog.setVisible(true);
+        }
     }
 
     /*
@@ -772,25 +809,41 @@ public class Tabuleiro extends JPanel {
      * ====================
      */
     public void posicionarEntidades(Inimigo[] inimigos, Armadilha[] armadilhas, Item[] itens) {
-        int[] xInimigos = new int[7];
+        int[] xInimigos = new int[8];
         Random random = new Random();
-        for (int i = 0; i < 7; i++) {
+        DungeonFighter jogo = DungeonFighter.getInstanceDungeonFighter();
+        boolean debug = jogo.getDebug();
+
+        for (int i = 0; i < 8; i++) {
             if (i == 0) {
                 xInimigos[i] = random.nextInt(7) + 1;
             } else {
                 xInimigos[i] = random.nextInt(8);
             }
         }
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             celulas[i][xInimigos[i]].setEntidade(inimigos[i]);
-            celulas[i][xInimigos[i]].setBackground(Color.black);
+            if (debug) {
+                this.boss = new Chefao(inimigos[i].getIcone());
+                celulas[i][xInimigos[i]].add(boss, BorderLayout.CENTER);
+            }
+            if (i == 7) {
+                this.boss = new Chefao(inimigos[7].getIcone());
+                celulas[i][xInimigos[i]].add(boss, BorderLayout.CENTER);
+            }
         }
+
         for (int i = 0; i < armadilhas.length; i++) {
             int x = random.nextInt(8);
             int y = random.nextInt(8);
             if (celulas[y][x].getEntidade() == null) {
                 celulas[y][x].setEntidade(armadilhas[i]);
-                celulas[y][x].setBackground(Color.gray);
+                if (debug) {
+                    this.boss = new Chefao(armadilhas[i].getIcone());
+                    celulas[y][x].add(boss, BorderLayout.CENTER);
+
+                    // celulas[y][x].setBackground(Color.gray);
+                }
             } else {
                 i--;
             }
@@ -801,7 +854,11 @@ public class Tabuleiro extends JPanel {
             int y = random.nextInt(8);
             if (celulas[y][x].getEntidade() == null) {
                 celulas[y][x].setEntidade(itens[i]);
-                celulas[y][x].setBackground(Color.green);
+                if (debug) {
+                    this.boss = new Chefao(itens[i].getIcone());
+                    celulas[y][x].add(boss, BorderLayout.CENTER);
+                    // celulas[y][x].setBackground(Color.green);
+                }
             } else {
                 i--;
             }

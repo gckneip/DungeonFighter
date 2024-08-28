@@ -1,4 +1,5 @@
 package dungeonfighter.batalha;
+
 import dungeonfighter.DungeonFighter;
 import dungeonfighter.Tabuleiro;
 import dungeonfighter.entidades.itens.Item;
@@ -9,6 +10,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import java.awt.FlowLayout;
 
 public class Batalha extends JPanel {
 
@@ -81,7 +87,8 @@ public class Batalha extends JPanel {
         int danoInimigo = inimigo.atacar(heroi);
 
         if (this.especialBuffer > 0) {
-            throw new OutOfSpecialsException("Aguarde mais " + (especialBuffer) + " turnos para usar o especial novamente.");
+            throw new OutOfSpecialsException(
+                    "Aguarde mais " + (especialBuffer) + " turnos para usar o especial novamente.");
         } else {
             this.especialBuffer = 4;
         }
@@ -108,7 +115,7 @@ public class Batalha extends JPanel {
     public void usarItem() {
         ArrayList<Item> bolsa = heroi.getBolsa();
         if (!bolsa.isEmpty()) {
-            Item item = bolsa.getFirst();
+            Item item = bolsa.get(0);
             if (item instanceof ItemDeCura itemDeCura) {
                 heroi.curar(itemDeCura.getCura());
                 JOptionPane.showMessageDialog(null, nomeJogador + " usou " + item.getNome() + " e curou "
@@ -138,7 +145,40 @@ public class Batalha extends JPanel {
     public void atualizarVida() {
         if (heroi.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, "Você morreu. Game Over :(");
-            DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
+
+            JDialog dialog = new JDialog(DungeonFighter.getInstanceDungeonFighter(), "Sair", true);
+            dialog.setSize(200, 100);
+            dialog.setLayout(new FlowLayout());
+
+            // Create two buttons
+            JButton button1 = new JButton("Reiniciar jogo");
+            JButton button2 = new JButton("Novo jogo");
+
+            dialog.add(button1);
+            dialog.add(button2);
+
+            button1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.dispose();
+                    DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
+                }
+            });
+
+            button2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DungeonFighter.getInstanceDungeonFighter().novoJogo();
+                    dialog.dispose();
+                }
+            });
+
+            // Position the dialog in the center of the parent frame
+            dialog.setLocationRelativeTo(DungeonFighter.getInstanceDungeonFighter());
+
+            // Make the dialog visible
+            dialog.setVisible(true);
+
         } else if (inimigo.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, inimigo.getNome() + " derrotado! Parabéns!");
             DungeonFighter.getInstanceDungeonFighter().finalizarBatalha(true);

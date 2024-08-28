@@ -11,4 +11,8 @@ public abstract class Armadilha extends Entidade {
     }
 
     public abstract boolean darDano(Heroi heroi); // retorna um booleano para indicar se o heroi morreu
+
+    public ImageIcon getIcone() {
+        return super.getIcone();
+    }
 }

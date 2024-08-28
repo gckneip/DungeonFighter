@@ -11,4 +11,8 @@ public abstract class Item extends Entidade {
     }
 
     public abstract void efeito(Heroi heroi);
+
+    public ImageIcon getIcone() {
+        return super.getIcone();
+    }
 }
