@@ -10,6 +10,7 @@ import dungeonfighter.entidades.itens.*;
 import dungeonfighter.entidades.personagens.Muttley;
 import dungeonfighter.entidades.personagens.Peludinho;
 import dungeonfighter.entidades.personagens.scoobyLoo;
+import dungeonfighter.entidades.armadilhas.AguaQuente;
 import dungeonfighter.menu.Menu;
 import java.awt.*;
 import javax.swing.*;
@@ -48,11 +49,9 @@ public class DungeonFighter extends JFrame {
 
         getContentPane().add(menu, gbc);
         getContentPane().add(tabuleiro, gbc);
-        // getContentPane().add(copiaTabuleiro, gbc);
 
         menu.setVisible(true);
         tabuleiro.setVisible(false);
-        // copiaTabuleiro.setVisible(false);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -94,20 +93,6 @@ public class DungeonFighter extends JFrame {
     public void iniciarJogo() {
         menu.setVisible(false);
         tabuleiro.carregarHeroi();
-        // JFrame frameCopiaTabuleiro = new JFrame();
-        // frameCopiaTabuleiro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frameCopiaTabuleiro.setLocationRelativeTo(null);
-        // frameCopiaTabuleiro.setLayout(new GridBagLayout());
-        // GridBagConstraints gbc = new GridBagConstraints();
-        // gbc.gridx = 0;
-        // gbc.gridy = 0;
-        // gbc.fill = GridBagConstraints.BOTH;
-        // gbc.weightx = 1.0;
-        // gbc.weighty = 1.0;
-        // frameCopiaTabuleiro.add(copiaTabuleiro, gbc);
-        // frameCopiaTabuleiro.setSize(500, 500);
-        // frameCopiaTabuleiro.setVisible(true);
-        // copiaTabuleiro.carregarHeroi();
         tabuleiro.setVisible(true);
     }
 
@@ -138,13 +123,14 @@ public class DungeonFighter extends JFrame {
     }
 
     public Armadilha[] gerarArmadilhas() {
-        Armadilha[] armadilhas = new Armadilha[6];
+        Armadilha[] armadilhas = new Armadilha[7];
         armadilhas[0] = new BifeEnvenenado();
-        armadilhas[1] = new BifeEnvenenado();
+        armadilhas[1] = new AguaQuente();
         armadilhas[2] = new BifeEnvenenado();
-        armadilhas[3] = new BifeEnvenenado();
+        armadilhas[3] = new AguaQuente();
         armadilhas[4] = new BifeEnvenenado();
-        armadilhas[5] = new BifeEnvenenado();
+        armadilhas[5] = new AguaQuente();
+        armadilhas[6] = new BifeEnvenenado();
         return armadilhas;
     }
 
