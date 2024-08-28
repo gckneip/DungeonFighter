@@ -52,6 +52,10 @@ public class Tabuleiro extends JPanel {
                 celulas[row][col].setLayout(new BorderLayout());
                 celulas[row][col].setEntidade(original.celulas[row][col].getEntidade());
                 tabuleiro.add(celulas[row][col]);
+                if (row == 7 && original.celulas[row][col].getEntidade() instanceof Boss) {
+                    this.boss = new Chefao(celulas[row][col].getEntidade().getIcone());
+                    celulas[row][col].add(boss, BorderLayout.CENTER);
+                }
             }
         }
 
@@ -315,7 +319,8 @@ public class Tabuleiro extends JPanel {
         inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
         inventario.setBackground(Color.CYAN);
 
-        Image originalImage = new ImageIcon("assets/elixir.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);        
+        Image originalImage = new ImageIcon("assets/elixir.png").getImage().getScaledInstance(60, 60,
+                Image.SCALE_SMOOTH);
         ImageIcon iconElixir = new ImageIcon(originalImage);
 
         for (int i = 0; i < 5; i++) {
@@ -551,7 +556,7 @@ public class Tabuleiro extends JPanel {
         celulas[yAnterior][xAnterior].add(jogador, BorderLayout.CENTER);
         celulas[yAnterior][xAnterior].revalidate();
         celulas[yAnterior][xAnterior].repaint();
-        jogador.setPodeMover(false);
+        jogador.setPodeMover(true);
         jogador.mover(yAnterior, xAnterior);
         setCelulasClicaveis(jogador.getPosicaoY(), jogador.getPosicaoX());
         atualizarMenu();
@@ -569,6 +574,7 @@ public class Tabuleiro extends JPanel {
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
         this.jogador = new Jogador(0, 0, jogo.getHeroi().getIcone(), jogo.getNomeJogador());
         celulas[0][0].add(jogador, BorderLayout.CENTER);
+        jogador.setPodeMover(true);
         atualizarMenu();
     }
 
@@ -691,6 +697,7 @@ public class Tabuleiro extends JPanel {
     public void verificarSituacaoJogo(Celula celulaAtual) {
         Entidade entidade = celulaAtual.getEntidade();
         this.jogo = DungeonFighter.getInstanceDungeonFighter();
+        boolean debug = jogo.getDebug();
 
         if (entidade != null) {
             if (entidade instanceof Inimigo) {
@@ -708,13 +715,25 @@ public class Tabuleiro extends JPanel {
                     JOptionPane.showMessageDialog(null, "Sua bolsa está cheia! Descarte um item para pegar o elixir.");
                 }
                 celulaAtual.setEntidade(null);
+
+                if (debug) {
+                    celulaAtual.removeAll();
+                    celulaAtual.setBackground(Color.white);
+                    celulaAtual.add(jogador);
+                }
                 atualizarMenu();
             }
             if (entidade instanceof Armadilha) {
                 Armadilha armadilha = (Armadilha) entidade;
-                JOptionPane.showMessageDialog(null, "Você caiu em uma armadilha! Dano: 1 ");
+                JOptionPane.showMessageDialog(null, "Você caiu em uma armadilha!");
                 armadilha.darDano(jogo.getHeroi());
                 celulaAtual.setEntidade(null);
+
+                if (debug) {
+                    celulaAtual.removeAll();
+                    celulaAtual.setBackground(Color.white);
+                    celulaAtual.add(jogador);
+                }
                 atualizarMenu();
             }
         }
@@ -829,6 +848,7 @@ public class Tabuleiro extends JPanel {
             if (i == 7) {
                 this.boss = new Chefao(inimigos[7].getIcone());
                 celulas[i][xInimigos[i]].add(boss, BorderLayout.CENTER);
+                celulas[i][xInimigos[i]].setBackground(Color.black);
             }
         }
 

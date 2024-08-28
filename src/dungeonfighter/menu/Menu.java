@@ -14,7 +14,6 @@ public class Menu extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-
         imageMenu = new ImageIcon("assets/gatomenuFinal.jpg");
 
         botoesIniciais = new BotoesIniciais(
@@ -23,17 +22,17 @@ public class Menu extends JPanel {
                 e -> System.exit(0));
 
         criarHeroiMenu = new CriarHeroiMenu();
-        criarHeroiMenu.setVisible(false); 
-        
+        criarHeroiMenu.setVisible(false);
+
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        
+
         gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.NONE; 
-        gbc.weighty = 0; 
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 0;
 
         gbc.gridy = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -55,10 +54,10 @@ public class Menu extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        
+
         gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.NONE; 
-        gbc.weighty = 0; 
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 0;
 
         gbc.gridy = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -86,6 +85,7 @@ public class Menu extends JPanel {
     }
 
     public void novoJogo() {
+        DungeonFighter.getInstanceDungeonFighter().setDebug();
         botoesIniciais.setVisible(true);
         criarHeroiMenu.setVisible(false);
 
