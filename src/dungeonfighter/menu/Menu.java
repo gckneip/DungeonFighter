@@ -71,6 +71,17 @@ public class Menu extends JPanel {
         repaint();
     }
 
+    public void novoJogo() {
+        imagePanel.setVisible(true);
+        botoesIniciais.setVisible(true);
+        criarHeroiMenu.setVisible(false);
+
+        DungeonFighter.getInstanceDungeonFighter().setHeroi(null);
+
+        revalidate();
+        repaint();
+    }
+
     private void debug() {
         DungeonFighter.getInstanceDungeonFighter().iniciarBatalha(new scoobyLoo());
     }
