@@ -11,6 +11,7 @@ public class CriarHeroiMenu extends JPanel {
     private final JLabel titulo;
     private final JButton botaoComecar;
     private final JTextField nomeField;
+    private final ImageIcon imageMenu = new ImageIcon("assets/scrollBackground.jpg");
 
     public CriarHeroiMenu() {
         setLayout(new BorderLayout());
@@ -71,7 +72,9 @@ public class CriarHeroiMenu extends JPanel {
         contentPanel.add(atributosMenu, gbc);
 
         add(titulo, BorderLayout.NORTH);
+        contentPanel.setOpaque(false);
         add(contentPanel, BorderLayout.CENTER);
+        inputPanel.setOpaque(false);
         add(inputPanel, BorderLayout.SOUTH);
     }
 
@@ -119,7 +122,7 @@ public class CriarHeroiMenu extends JPanel {
                 jogo.setHeroi(heroi);
                 jogo.setHeroiCopia(heroiAntigo);
 
-                DungeonFighter.getInstanceDungeonFighter().setNomeJogador(nomeField.getText());
+                jogo.setNomeJogador(nomeField.getText());
                 jogo.iniciarJogo();
             }
         } catch (IllegalArgumentException ex) {
@@ -128,5 +131,12 @@ public class CriarHeroiMenu extends JPanel {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro inesperado: " + ex.getMessage(), "Erro",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Image scaledImage = imageMenu.getImage();
+        g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
     }
 }
