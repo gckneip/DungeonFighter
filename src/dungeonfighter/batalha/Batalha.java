@@ -1,9 +1,10 @@
 package dungeonfighter.batalha;
-
 import dungeonfighter.DungeonFighter;
+import dungeonfighter.Tabuleiro;
 import dungeonfighter.entidades.itens.Item;
 import dungeonfighter.entidades.itens.ItemDeCura;
 import dungeonfighter.entidades.personagens.*;
+import dungeonfighter.exceptions.OutOfSpecialsException;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -15,11 +16,16 @@ public class Batalha extends JPanel {
     private final PainelAcoes painelAcoes;
     private final Heroi heroi;
     private final Inimigo inimigo;
+    private final Tabuleiro tabuleiro;
+    private int especialBuffer = 0;
+    private final String nomeJogador;
 
     public Batalha(Heroi heroi, Inimigo inimigo) {
 
         this.heroi = heroi;
         this.inimigo = inimigo;
+        this.tabuleiro = DungeonFighter.getInstanceDungeonFighter().getTabuleiro();
+        this.nomeJogador = DungeonFighter.getInstanceDungeonFighter().getNomeJogador();
 
         setLayout(new GridBagLayout());
         setBackground(Color.GREEN);
@@ -53,10 +59,11 @@ public class Batalha extends JPanel {
         int danoInimigo = inimigo.atacar(heroi);
         if (danoHeroi > 0) {
             JOptionPane.showMessageDialog(null,
-                    heroi.getNome() + " atacou " + inimigo.getNome() + " com " + danoHeroi + " de dano.\n");
+                    nomeJogador + " atacou " + inimigo.getNome() + " com " + danoHeroi + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    heroi.getNome() + " errou o ataque e sofreu" + danoHeroi * (-1) + "de dano.\n");
+                    heroi.getNome() + " errou o ataque e sofreu " + danoHeroi * (-1) + " de dano.\n");
+
         }
 
         if (danoInimigo > 0) {
@@ -64,29 +71,36 @@ public class Batalha extends JPanel {
                     inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
     }
 
-    public void especial() {
+    public void especial() throws OutOfSpecialsException {
         int danoHeroi = heroi.especial(inimigo);
         int danoInimigo = inimigo.atacar(heroi);
+
+        if (this.especialBuffer > 0) {
+            throw new OutOfSpecialsException("Aguarde mais " + (especialBuffer) + " turnos para usar o especial novamente.");
+        } else {
+            this.especialBuffer = 4;
+        }
+
         if (heroi instanceof Guerreiro) {
             JOptionPane.showMessageDialog(null,
-                    heroi.getNome() + " usou ataque especial e aumentou sua defesa para " + danoHeroi + ".\n");
+                    nomeJogador + " usou ataque especial e aumentou sua defesa para " + danoHeroi + ".\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    heroi.getNome() + " usou seu ataque especial e atacou" + inimigo.getNome() + " com " + danoHeroi
+                    nomeJogador + " usou seu ataque especial e atacou" + inimigo.getNome() + " com " + danoHeroi
                             + " de dano.\n");
         }
 
         if (danoInimigo > 0) {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
+                    inimigo.getNome() + " atacou " + nomeJogador + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
     }
@@ -94,11 +108,12 @@ public class Batalha extends JPanel {
     public void usarItem() {
         ArrayList<Item> bolsa = heroi.getBolsa();
         if (!bolsa.isEmpty()) {
-            Item item = bolsa.get(0);
+            Item item = bolsa.getFirst();
             if (item instanceof ItemDeCura itemDeCura) {
                 heroi.curar(itemDeCura.getCura());
-                JOptionPane.showMessageDialog(null, heroi.getNome() + " usou " + item.getNome() + " e curou "
+                JOptionPane.showMessageDialog(null, nomeJogador + " usou " + item.getNome() + " e curou "
                         + itemDeCura.getCura() + " pontos de vida.");
+                bolsa.remove(item);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Bolsa vazia");
@@ -106,12 +121,13 @@ public class Batalha extends JPanel {
         int danoInimigo = inimigo.atacar(heroi);
         if (danoInimigo > 0) {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
+                    inimigo.getNome() + " atacou " + nomeJogador + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " errou o ataque e sofreu" + danoInimigo * (-1) + "de dano.\n");
+                    inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
         }
         atualizarVida();
+        tabuleiro.updateInventario();
 
     }
 
@@ -122,11 +138,12 @@ public class Batalha extends JPanel {
     public void atualizarVida() {
         if (heroi.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, "Você morreu. Game Over :(");
-            DungeonFighter.getInstanceDungeonFighter().gameOver();
+            DungeonFighter.getInstanceDungeonFighter().reiniciarJogo();
         } else if (inimigo.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, inimigo.getNome() + " derrotado! Parabéns!");
             DungeonFighter.getInstanceDungeonFighter().finalizarBatalha(true);
         }
         painelPersonagens.atualizarVida(heroi, inimigo);
+        this.especialBuffer = Math.max(0, this.especialBuffer - 1);
     }
 }

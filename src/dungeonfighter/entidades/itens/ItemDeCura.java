@@ -24,4 +24,11 @@ public class ItemDeCura extends Item {
     public void efeito(Heroi heroi) {
         heroi.curar(this.cura);
     }
+
+
+
+    @Override
+    public ItemDeCura clone() {
+        return new ItemDeCura(this.getNome(), this.getIcone(), this.getVisivel(), this.getCura());
+    }
 }

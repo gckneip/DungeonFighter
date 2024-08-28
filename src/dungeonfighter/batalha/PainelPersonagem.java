@@ -12,7 +12,7 @@ public class PainelPersonagem extends JPanel {
     private final JLabel nomeLabel;
     private final JPanel imagePanel;
     
-    public PainelPersonagem(Personagem personagem) {
+    public PainelPersonagem(Personagem personagem, String nome) {
         vida = personagem.getVida();
 
         setLayout(new GridBagLayout());
@@ -47,7 +47,7 @@ public class PainelPersonagem extends JPanel {
         gbcInfo.anchor = GridBagConstraints.CENTER;
         gbcInfo.insets = new Insets(10, 20, 10, 20);
 
-        nomeLabel = new JLabel(personagem.getNome());
+        nomeLabel = new JLabel(nome);
         nomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         nomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
