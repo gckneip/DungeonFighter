@@ -61,6 +61,159 @@ public class Tabuleiro extends JPanel {
         gbc.weightx = 0.7;
         gbc.weighty = 1.0;
         add(tabuleiro, gbc);
+        menu = new JPanel();
+        menu.setBackground(Color.BLUE);
+        menu.setLayout(new GridBagLayout());
+        menu.setPreferredSize(new Dimension(200, 800));
+
+        JLabel nomeLabel = new JLabel("Nome: ");
+        GridBagConstraints gbcNomeLabel = new GridBagConstraints();
+        gbcNomeLabel.gridx = 0;
+        gbcNomeLabel.gridy = 0;
+        gbcNomeLabel.fill = GridBagConstraints.HORIZONTAL;
+        gbcNomeLabel.weightx = 1.0;
+        gbcNomeLabel.weighty = 1.0;
+        gbcNomeLabel.insets = new Insets(5, 5, 5, 5);
+
+        JPanel inventario = new JPanel();
+        inventario.setLayout(new GridBagLayout());
+        inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
+        inventario.setBackground(Color.CYAN);
+        for (int i = 0; i < 5; i++) {
+            JPanel item = new JPanel();
+            item.setBackground(Color.white);
+            item.setBorder(BorderFactory.createLineBorder(Color.black));
+            item.setPreferredSize(new Dimension(30, 30));
+            GridBagConstraints gbcItem = new GridBagConstraints();
+            gbcItem.gridx = i;
+            gbcItem.gridy = 0;
+            gbcItem.fill = GridBagConstraints.BOTH;
+            gbcItem.weightx = 1.0;
+            inventario.add(item, gbcItem);
+        }
+        GridBagConstraints gbcInventario = new GridBagConstraints();
+        gbcInventario.gridx = 0;
+        gbcInventario.gridy = 1;
+        gbcInventario.fill = GridBagConstraints.BOTH;
+        gbcInventario.weightx = 1.0;
+        gbcInventario.weighty = 2;
+
+        JPanel inventarioPanel = new JPanel();
+        inventarioPanel.setBackground(Color.white);
+        inventarioPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbcInventarioPanel = new GridBagConstraints();
+        gbcInventarioPanel.gridx = 0;
+        gbcInventarioPanel.gridy = 0;
+        gbcInventarioPanel.weightx = 1.0;
+        gbcInventarioPanel.weighty = 1.0;
+        gbcInventarioPanel.fill = GridBagConstraints.BOTH;
+
+        inventarioPanel.add(nomeLabel, gbcNomeLabel);
+        inventarioPanel.add(inventario, gbcInventario);
+        menu.add(inventarioPanel, gbcInventarioPanel);
+
+        imagePanel = new JPanel();
+        imagePanel.setBackground(Color.black);
+        imagePanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbcImagePanel = new GridBagConstraints();
+        gbcImagePanel.gridx = 0;
+        gbcImagePanel.gridy = 1;
+        gbcImagePanel.weightx = 1.0;
+        gbcImagePanel.weighty = 2.0;
+        gbcImagePanel.fill = GridBagConstraints.BOTH;
+        menu.add(imagePanel, gbcImagePanel);
+
+        vidaLabel = new JLabel("Vida: ");
+        GridBagConstraints gbcVidaLabel = new GridBagConstraints();
+        gbcVidaLabel.gridx = 0;
+        gbcVidaLabel.gridy = 0;
+        gbcVidaLabel.fill = GridBagConstraints.CENTER;
+        gbcVidaLabel.weightx = 1.0;
+        gbcVidaLabel.weighty = 4;
+
+        ataqueLabel = new JLabel("Ataque: ");
+        GridBagConstraints gbcAtaqueLabel = new GridBagConstraints();
+        gbcAtaqueLabel.gridx = 1;
+        gbcAtaqueLabel.gridy = 0;
+        gbcAtaqueLabel.anchor = GridBagConstraints.CENTER;
+        gbcAtaqueLabel.fill = GridBagConstraints.CENTER;
+        gbcAtaqueLabel.weightx = 1.0;
+        gbcAtaqueLabel.weighty = 4;
+
+        defesaLabel = new JLabel("Defesa: ");
+        GridBagConstraints gbcDefesaLabel = new GridBagConstraints();
+        gbcDefesaLabel.gridx = 2;
+        gbcDefesaLabel.gridy = 0;
+        gbcDefesaLabel.anchor = GridBagConstraints.CENTER;
+        gbcDefesaLabel.fill = GridBagConstraints.CENTER;
+        gbcDefesaLabel.weightx = 1.0;
+        gbcDefesaLabel.weighty = 4;
+
+        JButton dicaButton = new JButton("Dica");
+        dicaButton.addActionListener(e -> {
+            if (dicas > 0) {
+                usarDica();
+                dicas--;
+            } else {
+                JOptionPane.showMessageDialog(null, "Você não tem mais dicas!");
+            }
+        });
+        GridBagConstraints gbcDicaButton = new GridBagConstraints();
+        gbcDicaButton.gridx = 0;
+        gbcDicaButton.gridy = 1;
+        gbcDicaButton.fill = GridBagConstraints.CENTER;
+        gbcDicaButton.weightx = 1.0;
+        gbcDicaButton.weighty = 1.0;
+
+        JButton sairButton = new JButton("Sair");
+        sairButton.addActionListener(e -> {
+            sair();
+        });
+        GridBagConstraints gbcSairButton = new GridBagConstraints();
+        gbcSairButton.gridx = 2;
+        gbcSairButton.gridy = 1;
+        gbcSairButton.fill = GridBagConstraints.CENTER;
+        gbcSairButton.weightx = 1.0;
+        gbcSairButton.weighty = 1.0;
+
+        JButton podeMover = new JButton("Mover");
+        podeMover.addActionListener(e -> {
+            jogador.setPodeMover(true);
+        });
+        GridBagConstraints gbcPodeMover = new GridBagConstraints();
+        gbcPodeMover.gridx = 1;
+        gbcPodeMover.gridy = 1;
+        gbcPodeMover.fill = GridBagConstraints.CENTER;
+        gbcPodeMover.weightx = 1.0;
+        gbcPodeMover.weighty = 1.0;
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setBackground(Color.PINK);
+        infoPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbcInfoPanel = new GridBagConstraints();
+        gbcInfoPanel.gridx = 0;
+        gbcInfoPanel.gridy = 2;
+        gbcInfoPanel.weightx = 1.0;
+        gbcInfoPanel.weighty = 1.0;
+        gbcInfoPanel.fill = GridBagConstraints.BOTH;
+
+        infoPanel.add(vidaLabel, gbcVidaLabel);
+        infoPanel.add(ataqueLabel, gbcAtaqueLabel);
+        infoPanel.add(defesaLabel, gbcDefesaLabel);
+
+        infoPanel.add(dicaButton, gbcDicaButton);
+        infoPanel.add(sairButton, gbcSairButton);
+        infoPanel.add(podeMover, gbcPodeMover);
+
+        menu.add(infoPanel, gbcInfoPanel);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.3;
+        add(menu, gbc);
+
+        // -------------------------------- MENU ---------------------------
+
+        setVisible(true);
         // this.dicas = original.dicas;
         // this.celulas = new
         // Celula[original.celulas.length][original.celulas[0].length];
@@ -282,6 +435,10 @@ public class Tabuleiro extends JPanel {
     }
 
     public void sair() {
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Sair", JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            jogo.reiniciarJogo();
+        }
     }
 
     /*

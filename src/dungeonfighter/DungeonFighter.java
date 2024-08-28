@@ -74,33 +74,51 @@ public class DungeonFighter extends JFrame {
         return getInstanceDungeonFighter().heroi;
     }
 
-    public void iniciarJogo() {
-        menu.setVisible(false);
+    public void reiniciarJogo() {
+        tabuleiro.setVisible(false);
+        getContentPane().remove(tabuleiro);
+        tabuleiro = null;
+        tabuleiro = copiaTabuleiro;
         tabuleiro.carregarHeroi();
-        JFrame frameCopiaTabuleiro = new JFrame();
-        frameCopiaTabuleiro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameCopiaTabuleiro.setLocationRelativeTo(null);
-        frameCopiaTabuleiro.setLayout(new GridBagLayout());
+        copiaTabuleiro = new Tabuleiro(tabuleiro);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        frameCopiaTabuleiro.add(copiaTabuleiro, gbc);
-        frameCopiaTabuleiro.setSize(500, 500);
-        frameCopiaTabuleiro.setVisible(true);
+        getContentPane().add(tabuleiro, gbc);
+        tabuleiro.setVisible(true);
+    }
+
+    public void iniciarJogo() {
+        menu.setVisible(false);
+        tabuleiro.carregarHeroi();
+        // JFrame frameCopiaTabuleiro = new JFrame();
+        // frameCopiaTabuleiro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frameCopiaTabuleiro.setLocationRelativeTo(null);
+        // frameCopiaTabuleiro.setLayout(new GridBagLayout());
+        // GridBagConstraints gbc = new GridBagConstraints();
+        // gbc.gridx = 0;
+        // gbc.gridy = 0;
+        // gbc.fill = GridBagConstraints.BOTH;
+        // gbc.weightx = 1.0;
+        // gbc.weighty = 1.0;
+        // frameCopiaTabuleiro.add(copiaTabuleiro, gbc);
+        // frameCopiaTabuleiro.setSize(500, 500);
+        // frameCopiaTabuleiro.setVisible(true);
+        // copiaTabuleiro.carregarHeroi();
         tabuleiro.setVisible(true);
     }
 
     public Inimigo[] gerarInimigos() {
         Inimigo[] inimigos = new Inimigo[8];
-        int slaporra;
+        int qualInimigo;
         Random random = new Random();
 
         for (int i = 0; i < 8; i++) {
-            slaporra = random.nextInt(4);
-            switch (slaporra) {
+            qualInimigo = random.nextInt(4);
+            switch (qualInimigo) {
                 case 0:
                     inimigos[i] = new Muttley();
                     break;
