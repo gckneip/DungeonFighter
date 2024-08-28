@@ -59,11 +59,10 @@ public class Batalha extends JPanel {
         int danoInimigo = inimigo.atacar(heroi);
         if (danoHeroi > 0) {
             JOptionPane.showMessageDialog(null,
-                    nomeJogador + " atacou " + inimigo.getNome() + " com " + danoHeroi + " de dano.\n");
+                    heroi.getNome() + " atacou " + inimigo.getNome() + " com " + danoHeroi + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
                     heroi.getNome() + " errou o ataque e sofreu " + danoHeroi * (-1) + " de dano.\n");
-
         }
 
         if (danoInimigo > 0) {
@@ -88,16 +87,16 @@ public class Batalha extends JPanel {
 
         if (heroi instanceof Guerreiro) {
             JOptionPane.showMessageDialog(null,
-                    nomeJogador + " usou ataque especial e aumentou sua defesa para " + danoHeroi + ".\n");
+                    heroi.getNome() + " usou ataque especial e aumentou sua defesa para " + danoHeroi + ".\n");
         } else {
             JOptionPane.showMessageDialog(null,
-                    nomeJogador + " usou seu ataque especial e atacou" + inimigo.getNome() + " com " + danoHeroi
+                    heroi.getNome() + " usou seu ataque especial e atacou" + inimigo.getNome() + " com " + danoHeroi
                             + " de dano.\n");
         }
 
         if (danoInimigo > 0) {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " atacou " + nomeJogador + " com " + danoInimigo + " de dano.\n");
+                    inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
                     inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");
@@ -111,7 +110,7 @@ public class Batalha extends JPanel {
             Item item = bolsa.getFirst();
             if (item instanceof ItemDeCura itemDeCura) {
                 heroi.curar(itemDeCura.getCura());
-                JOptionPane.showMessageDialog(null, nomeJogador + " usou " + item.getNome() + " e curou "
+                JOptionPane.showMessageDialog(null, heroi.getNome() + " usou " + item.getNome() + " e curou "
                         + itemDeCura.getCura() + " pontos de vida.");
                 bolsa.remove(item);
             }
@@ -121,7 +120,7 @@ public class Batalha extends JPanel {
         int danoInimigo = inimigo.atacar(heroi);
         if (danoInimigo > 0) {
             JOptionPane.showMessageDialog(null,
-                    inimigo.getNome() + " atacou " + nomeJogador + " com " + danoInimigo + " de dano.\n");
+                    inimigo.getNome() + " atacou " + heroi.getNome() + " com " + danoInimigo + " de dano.\n");
         } else {
             JOptionPane.showMessageDialog(null,
                     inimigo.getNome() + " errou o ataque e sofreu " + danoInimigo * (-1) + " de dano.\n");

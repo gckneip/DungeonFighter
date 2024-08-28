@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Peludinho extends Inimigo {
     public Peludinho() {
-        super("Peludinho", 15, 5, 10, new ImageIcon("src/dungeonfighter/assets/peludinho.jpg"), true,
+        super("Peludinho", 15, 5, 10, new ImageIcon("assets/peludinho.jpg"), true,
                 new Elixir(true, 8));
     }
 }

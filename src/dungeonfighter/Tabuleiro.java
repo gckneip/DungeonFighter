@@ -91,7 +91,7 @@ public class Tabuleiro extends JPanel {
         inventario.setBorder(BorderFactory.createTitledBorder("Inventário"));
         inventario.setBackground(Color.CYAN);
 
-        Image originalImage = new ImageIcon("src/dungeonfighter/assets/elixir.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);        
+        Image originalImage = new ImageIcon("assets/elixir.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);        
         ImageIcon iconElixir = new ImageIcon(originalImage);
         
         for (int i = 0; i < 5; i++) {

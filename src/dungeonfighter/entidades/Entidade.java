@@ -1,7 +1,6 @@
 package dungeonfighter.entidades;
 
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 public abstract class Entidade {

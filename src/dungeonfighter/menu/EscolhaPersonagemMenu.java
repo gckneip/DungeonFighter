@@ -19,9 +19,9 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        bruxoButton = new EscolhaPersonagemBotao("Bruxo", "src/dungeonfighter/assets/bruxo.png");
-        guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "src/dungeonfighter/assets/guerreiro.png");
-        arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "src/dungeonfighter/assets/arqueiro.jpg");
+        bruxoButton = new EscolhaPersonagemBotao("Bruxo", "assets/bruxo.png");
+        guerreiroButton = new EscolhaPersonagemBotao("Guerreiro", "assets/guerreiro.png");
+        arqueiroButton = new EscolhaPersonagemBotao("Arqueiro", "assets/arqueiro.jpg");
 
         addActionListeners();
 

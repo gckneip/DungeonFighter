@@ -3,6 +3,7 @@ package dungeonfighter.menu;
 import dungeonfighter.DungeonFighter;
 import dungeonfighter.entidades.personagens.scoobyLoo;
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Menu extends JPanel {
@@ -12,11 +13,11 @@ public class Menu extends JPanel {
     private final CriarHeroiMenu criarHeroiMenu;
     private final JPanel imagePanel;
 
-    public Menu() {
+    public Menu()  {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        String imagePath = "src/dungeonfighter/assets/dungeonFighterLogo2.jpg";
+        String imagePath = "assets/dungeonFighterLogo2.jpg";
         imageMenu = new ImageIcon(imagePath);
 
         imagePanel = new JPanel() {
