@@ -1,7 +1,6 @@
 package dungeonfighter.menu;
 
 import dungeonfighter.DungeonFighter;
-import dungeonfighter.entidades.personagens.scoobyLoo;
 import java.awt.*;
 import java.io.IOException;
 import javax.swing.*;
@@ -30,13 +29,12 @@ public class Menu extends JPanel {
         };
 
         botoesIniciais = new BotoesIniciais(
-            e -> comecarJogo(),
-            e -> debug(),
-            e -> System.exit(0)
-        );
+                e -> comecarJogo(),
+                e -> debug(),
+                e -> System.exit(0));
 
         criarHeroiMenu = new CriarHeroiMenu();
-        criarHeroiMenu.setVisible(false); 
+        criarHeroiMenu.setVisible(false);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -45,22 +43,22 @@ public class Menu extends JPanel {
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.5; 
+        gbc.weighty = 0.5;
         add(imagePanel, gbc);
 
         gbc.gridy = 1;
-        gbc.gridwidth = 1; 
+        gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE; 
-        gbc.weighty = 0; 
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 0;
         add(botoesIniciais, gbc);
 
         gbc.gridy = 2;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.CENTER;     
-        add(criarHeroiMenu, gbc); 
+        gbc.fill = GridBagConstraints.CENTER;
+        add(criarHeroiMenu, gbc);
     }
 
     private void comecarJogo() {
@@ -84,6 +82,7 @@ public class Menu extends JPanel {
     }
 
     private void debug() {
-        DungeonFighter.getInstanceDungeonFighter().iniciarBatalha(new scoobyLoo());
+        DungeonFighter.getInstanceDungeonFighter().setDebug();
+        comecarJogo();
     }
 }

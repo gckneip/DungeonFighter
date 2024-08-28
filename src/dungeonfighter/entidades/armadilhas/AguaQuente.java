@@ -1,3 +1,7 @@
+package dungeonfighter.entidades.armadilhas;
+
+import javax.swing.ImageIcon;
+
 public class AguaQuente extends ArmadilhaFixa {
 
     public AguaQuente() {

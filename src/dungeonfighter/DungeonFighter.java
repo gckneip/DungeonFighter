@@ -4,39 +4,45 @@ import dungeonfighter.batalha.*;
 import dungeonfighter.entidades.armadilhas.Armadilha;
 import dungeonfighter.entidades.armadilhas.BifeEnvenenado;
 import dungeonfighter.entidades.itens.*;
+import dungeonfighter.entidades.personagens.Arqueiro;
+import dungeonfighter.entidades.personagens.Bruxo;
+import dungeonfighter.entidades.personagens.Guerreiro;
 import dungeonfighter.entidades.personagens.Heroi;
 import dungeonfighter.entidades.personagens.Inimigo;
 import dungeonfighter.entidades.personagens.MineDog;
 import dungeonfighter.entidades.personagens.Muttley;
 import dungeonfighter.entidades.personagens.Peludinho;
 import dungeonfighter.entidades.personagens.scoobyLoo;
+import dungeonfighter.entidades.armadilhas.AguaQuente;
+import dungeonfighter.entidades.personagens.LetMeDoItForYou;
 import dungeonfighter.menu.Menu;
 import java.awt.*;
 import java.util.Random;
 import javax.swing.*;
 
 public class DungeonFighter extends JFrame {
-    
+
     private Menu menu;
     private Batalha batalha;
     private Tabuleiro tabuleiro;
-    private Tabuleiro tabuleiroAntigo;
+    private Tabuleiro copiaTabuleiro;
     private Heroi heroi;
-    private Heroi heroiAntigo;
+    private Heroi heroiCopia;
     private static DungeonFighter instanciaDungeonFighter;
     private final Inimigo[] inimigos;
     private final Armadilha[] armadilhas;
     private final Item[] itens;
     private String nomeJogador;
-    
+    private boolean debug = false;
+
     private DungeonFighter() {
         super("Dungeon Fighter");
         inimigos = gerarInimigos();
         armadilhas = gerarArmadilhas();
         itens = gerarItens();
-        
+
         menu = new Menu();
-        
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -44,13 +50,13 @@ public class DungeonFighter extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        
+
         getContentPane().add(menu, gbc);
-        
+
         menu.setVisible(true);
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(new Dimension(800,600));
+        setSize(new Dimension(800, 600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
@@ -58,7 +64,7 @@ public class DungeonFighter extends JFrame {
         JFrame jogo = getInstanceDungeonFighter();
         jogo.setVisible(true);
     }
-    
+
     public static DungeonFighter getInstanceDungeonFighter() {
         if (instanciaDungeonFighter == null) {
             instanciaDungeonFighter = new DungeonFighter();
@@ -69,13 +75,50 @@ public class DungeonFighter extends JFrame {
     public void setHeroi(Heroi heroi) {
         getInstanceDungeonFighter().heroi = heroi;
     }
-    
-    public void setHeroiAntigo(Heroi heroi) {
-        getInstanceDungeonFighter().heroiAntigo = heroi;
-    }
-    
+
     public Heroi getHeroi() {
         return getInstanceDungeonFighter().heroi;
+    }
+
+    public void setHeroiCopia(Heroi heroi) {
+        getInstanceDungeonFighter().heroiCopia = heroi;
+    }
+
+    public Heroi getHeroiCopia() {
+        return getInstanceDungeonFighter().heroiCopia;
+    }
+
+    public void reiniciarJogo() {
+        if (batalha != null) {
+            batalha.setVisible(false);
+            getContentPane().remove(batalha);
+            batalha = null;
+        }
+        DungeonFighter jogo = DungeonFighter.getInstanceDungeonFighter();
+        jogo.setHeroi(heroiCopia);
+
+        if (jogo.getHeroi() instanceof Bruxo) {
+            setHeroiCopia(new Bruxo());
+        } else if (jogo.getHeroi() instanceof Guerreiro) {
+            setHeroiCopia(new Guerreiro());
+        } else if (jogo.getHeroi() instanceof Arqueiro) {
+            setHeroiCopia(new Arqueiro());
+        }
+
+        tabuleiro.setVisible(false);
+        getContentPane().remove(tabuleiro);
+        tabuleiro = null;
+        tabuleiro = copiaTabuleiro;
+        tabuleiro.carregarHeroi();
+        copiaTabuleiro = new Tabuleiro(tabuleiro);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        getContentPane().add(tabuleiro, gbc);
+        tabuleiro.setVisible(true);
     }
 
     public void iniciarJogo() {
@@ -89,7 +132,7 @@ public class DungeonFighter extends JFrame {
 
     public void gerarTabuleiro() {
         tabuleiro = new Tabuleiro(inimigos, armadilhas, itens);
-
+        copiaTabuleiro = new Tabuleiro(tabuleiro);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -107,12 +150,12 @@ public class DungeonFighter extends JFrame {
 
     public Inimigo[] gerarInimigos() {
         Inimigo[] inimigos = new Inimigo[8];
-        int slaporra;
+        int qualInimigo;
         Random random = new Random();
 
-        for (int i = 0; i < 8; i++) {
-            slaporra = random.nextInt(4);
-            switch (slaporra) {
+        for (int i = 0; i < 7; i++) {
+            qualInimigo = random.nextInt(4);
+            switch (qualInimigo) {
                 case 0:
                     inimigos[i] = new Muttley();
                     break;
@@ -127,18 +170,28 @@ public class DungeonFighter extends JFrame {
                     break;
             }
         }
+        inimigos[7] = new LetMeDoItForYou();
 
         return inimigos;
     }
 
+    public void setDebug() {
+        this.debug = !this.debug;
+    }
+
+    public boolean getDebug() {
+        return this.debug;
+    }
+
     public Armadilha[] gerarArmadilhas() {
-        Armadilha[] armadilhas = new Armadilha[6];
+        Armadilha[] armadilhas = new Armadilha[7];
         armadilhas[0] = new BifeEnvenenado();
-        armadilhas[1] = new BifeEnvenenado();
+        armadilhas[1] = new AguaQuente();
         armadilhas[2] = new BifeEnvenenado();
-        armadilhas[3] = new BifeEnvenenado();
+        armadilhas[3] = new AguaQuente();
         armadilhas[4] = new BifeEnvenenado();
-        armadilhas[5] = new BifeEnvenenado();
+        armadilhas[5] = new AguaQuente();
+        armadilhas[6] = new BifeEnvenenado();
         return armadilhas;
     }
 
@@ -154,7 +207,6 @@ public class DungeonFighter extends JFrame {
         itens[7] = new Elixir(true, 5);
         return itens;
     }
-
 
     public void iniciarBatalha(Inimigo inimigo) {
         menu.setVisible(false);
@@ -178,7 +230,7 @@ public class DungeonFighter extends JFrame {
 
     public void finalizarBatalha(boolean ganhou) {
         if (ganhou) {
-            System.err.println("sexo");
+            tabuleiro.inimigoDerrotado();
         } else {
             tabuleiro.fugir();
         }
@@ -189,6 +241,11 @@ public class DungeonFighter extends JFrame {
     }
 
     public void novoJogo() {
+        if (batalha != null) {
+            batalha.setVisible(false);
+            getContentPane().remove(batalha);
+            batalha = null;
+        }
         tabuleiro.setVisible(false);
         remove(menu);
         menu = new Menu();
@@ -200,35 +257,11 @@ public class DungeonFighter extends JFrame {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         remove(tabuleiro);
-        add(menu,gbc);
+        add(menu, gbc);
         menu.setVisible(true);
         revalidate();
         repaint();
         menu.novoJogo();
-    }
-
-    public void reiniciarJogo() {
-        tabuleiro.setVisible(false);
-        remove(tabuleiro);
-        heroi = heroiAntigo;
-        tabuleiro = tabuleiroAntigo;
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-
-        getContentPane().add(tabuleiro, gbc);
-        tabuleiro.setVisible(true);
-
-        revalidate();
-        repaint();
-    }
-
-    public void gameOver() {
-        System.exit(0);
     }
 
     public void setNomeJogador(String nome) {

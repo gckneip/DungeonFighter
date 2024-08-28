@@ -19,8 +19,7 @@ public abstract class Inimigo extends Personagem {
         return espolio;
     }
 
-    public void morrer() {
-        this.dropEspolio();
-        super.setVisivel(false);
+    public ImageIcon getIcone() {
+        return super.getIcone();
     }
 }

@@ -96,18 +96,16 @@ public class CriarHeroiMenu extends JPanel {
             Heroi heroiAntigo = null;
 
             switch (escolhido) {
-                case BRUXO -> heroi = new Bruxo(); 
+                case BRUXO -> heroi = new Bruxo();
                 case GUERREIRO -> heroi = new Guerreiro();
                 case ARQUEIRO -> heroi = new Arqueiro();
             }
 
             switch (escolhido) {
-                case BRUXO -> heroiAntigo = new Bruxo(); 
+                case BRUXO -> heroiAntigo = new Bruxo();
                 case GUERREIRO -> heroiAntigo = new Guerreiro();
                 case ARQUEIRO -> heroiAntigo = new Arqueiro();
             }
-
-
 
             if (heroi != null) {
                 heroi.setAtaque(heroi.getAtaque() + (ataque - heroi.getAtaque()));
@@ -119,7 +117,7 @@ public class CriarHeroiMenu extends JPanel {
                 heroiAntigo.setVida(heroiAntigo.getVida() + (vida - heroiAntigo.getVida()));
 
                 jogo.setHeroi(heroi);
-                jogo.setHeroiAntigo(heroiAntigo);
+                jogo.setHeroiCopia(heroiAntigo);
 
                 DungeonFighter.getInstanceDungeonFighter().setNomeJogador(nomeField.getText());
                 jogo.iniciarJogo();
