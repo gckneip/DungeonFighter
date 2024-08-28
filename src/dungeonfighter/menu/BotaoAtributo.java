@@ -14,6 +14,7 @@ public class BotaoAtributo extends JPanel {
     public BotaoAtributo(String nome, int v, AtributosMenu atributosMenu) {
         this.valor = v;
         setLayout(new FlowLayout());
+        setOpaque(false);
 
         JLabel labelNome = new JLabel(nome);
         labelValor = new JLabel(String.valueOf(valor));

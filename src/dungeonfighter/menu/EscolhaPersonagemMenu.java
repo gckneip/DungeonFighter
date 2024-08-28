@@ -13,6 +13,7 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
     private tipoHeroi escolhido;
     private EscolhaPersonagemBotao botaoSelecionado;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final ImageIcon background = new ImageIcon("assets/backgroundMadeira.jpg");
 
     public EscolhaPersonagemMenu() {
         setLayout(new GridBagLayout());
@@ -83,5 +84,13 @@ public class EscolhaPersonagemMenu extends JPanel implements ActionListener {
         bruxoButton.addActionListener(this);
         guerreiroButton.addActionListener(this);
         arqueiroButton.addActionListener(this);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Image scaledImage = background.getImage();
+        g.drawImage(scaledImage, 0, 0, getWidth(), getHeight(), this);
+
     }
 }

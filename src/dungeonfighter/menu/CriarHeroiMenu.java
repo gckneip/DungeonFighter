@@ -17,7 +17,7 @@ public class CriarHeroiMenu extends JPanel {
         setLayout(new BorderLayout());
 
         titulo = new JLabel("Escolha seu Personagem", JLabel.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 24));
+        titulo.setFont(new Font("Arial", Font.BOLD, 50));
 
         botaoComecar = new JButton("Confirmar");
         botaoComecar.setPreferredSize(new Dimension(120, 50));
