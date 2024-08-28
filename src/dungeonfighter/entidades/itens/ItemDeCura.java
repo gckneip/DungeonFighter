@@ -7,8 +7,8 @@ public class ItemDeCura extends Item {
 
     private int cura;
 
-    public ItemDeCura(String nome, ImageIcon imagem, boolean visivel, int cura) {
-        super(nome, imagem, visivel);
+    public ItemDeCura(String nome, ImageIcon imagem, int cura) {
+        super(nome, imagem);
         this.cura = cura;
     }
 
@@ -25,10 +25,8 @@ public class ItemDeCura extends Item {
         heroi.curar(this.cura);
     }
 
-
-
     @Override
     public ItemDeCura clone() {
-        return new ItemDeCura(this.getNome(), this.getIcone(), this.getVisivel(), this.getCura());
+        return new ItemDeCura(this.getNome(), this.getIcone(), this.getCura());
     }
 }

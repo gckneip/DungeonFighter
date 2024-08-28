@@ -5,8 +5,7 @@ import javax.swing.ImageIcon;
 public class LetMeDoItForYou extends Boss {
 
     public LetMeDoItForYou() {
-        super(50, 15, 12, "Let Me Do It For You", new ImageIcon("assets/letMeDoItForYou.jpg"),
-                true);
+        super(50, 15, 12, "Let Me Do It For You", new ImageIcon("assets/letMeDoItForYou.jpg"));
     }
 
     @Override

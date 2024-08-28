@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 
 public abstract class Item extends Entidade {
 
-    public Item(String nome, ImageIcon imagem, boolean visivel) {
-        super(nome, imagem, visivel);
+    public Item(String nome, ImageIcon imagem) {
+        super(nome, imagem);
     }
 
     public abstract void efeito(Heroi heroi);

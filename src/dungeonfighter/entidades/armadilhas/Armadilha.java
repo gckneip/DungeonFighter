@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 
 public abstract class Armadilha extends Entidade {
 
-    public Armadilha(String nome, ImageIcon imagem, boolean visivel) {
-        super(nome, imagem, visivel);
+    public Armadilha(String nome, ImageIcon imagem) {
+        super(nome, imagem);
     }
 
     public abstract boolean darDano(Heroi heroi); // retorna um booleano para indicar se o heroi morreu

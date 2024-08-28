@@ -10,16 +10,8 @@ public abstract class Heroi extends Personagem {
     private final int tamanhoBolsa = 5;
     private int vidaMaxima;
 
-    // public Heroi(Heroi original) {
-    // super(original.getVida(), original.getDefesa(), original.getAtaque(),
-    // original.getNome(), original.getIcone(),
-    // true);
-    // this.bolsa = new ArrayList<Item>(tamanhoBolsa);
-    // this.vidaMaxima = original.vidaMaxima;
-    // }
-
-    public Heroi(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
-        super(vida, defesa, ataque, nome, imagem, visivel);
+    public Heroi(int vida, int defesa, int ataque, String nome, ImageIcon imagem) {
+        super(vida, defesa, ataque, nome, imagem);
         bolsa = new ArrayList<Item>(tamanhoBolsa);
         this.vidaMaxima = vida;
     }

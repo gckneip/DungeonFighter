@@ -7,12 +7,10 @@ public abstract class Entidade {
 
     private final String nome;
     private final ImageIcon icone;
-    private boolean visivel;
 
-    public Entidade(String nome, ImageIcon icone, boolean visivel) {
+    public Entidade(String nome, ImageIcon icone) {
         this.nome = nome;
         this.icone = icone;
-        this.visivel = visivel;
     }
 
     public Image getImagem() {
@@ -25,13 +23,5 @@ public abstract class Entidade {
 
     public ImageIcon getIcone() {
         return this.icone;
-    }
-
-    public boolean getVisivel() {
-        return this.visivel;
-    }
-
-    public void setVisivel(boolean visivel) {
-        this.visivel = visivel;
     }
 }

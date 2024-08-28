@@ -7,8 +7,8 @@ public abstract class ArmadilhaFixa extends Armadilha {
 
     private final int dano = 1;
 
-    public ArmadilhaFixa(String nome, ImageIcon imagem, boolean visivel) {
-        super(nome, imagem, visivel);
+    public ArmadilhaFixa(String nome, ImageIcon imagem) {
+        super(nome, imagem);
     }
 
     @Override

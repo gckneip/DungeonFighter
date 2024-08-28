@@ -29,9 +29,9 @@ public class DungeonFighter extends JFrame {
     private Heroi heroi;
     private Heroi heroiCopia;
     private static DungeonFighter instanciaDungeonFighter;
-    private final Inimigo[] inimigos;
-    private final Armadilha[] armadilhas;
-    private final Item[] itens;
+    private Inimigo[] inimigos;
+    private Armadilha[] armadilhas;
+    private Item[] itens;
     private String nomeJogador;
     private boolean debug = false;
 
@@ -234,9 +234,11 @@ public class DungeonFighter extends JFrame {
         } else {
             tabuleiro.fugir();
         }
-        batalha.setVisible(false);
-        getContentPane().remove(batalha);
-        batalha = null;
+        if (batalha != null) {
+            batalha.setVisible(false);
+            getContentPane().remove(batalha);
+            batalha = null;
+        }
         tabuleiro.setVisible(true);
     }
 
@@ -246,6 +248,9 @@ public class DungeonFighter extends JFrame {
             getContentPane().remove(batalha);
             batalha = null;
         }
+        this.inimigos = gerarInimigos();
+        this.armadilhas = gerarArmadilhas();
+        this.itens = gerarItens();
         tabuleiro.setVisible(false);
         remove(menu);
         menu = new Menu();

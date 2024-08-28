@@ -10,8 +10,8 @@ public abstract class Personagem extends Entidade {
     private int defesa;
     private int ataque;
 
-    public Personagem(int vida, int defesa, int ataque, String nome, ImageIcon imagem, boolean visivel) {
-        super(nome, imagem, visivel);
+    public Personagem(int vida, int defesa, int ataque, String nome, ImageIcon imagem) {
+        super(nome, imagem);
         this.vida = vida;
         this.defesa = defesa;
         this.ataque = ataque;

@@ -7,8 +7,8 @@ import java.util.Random;
 public abstract class ArmadilhaAleatoria extends Armadilha {
     private int dano;
 
-    public ArmadilhaAleatoria(String nome, ImageIcon imagem, boolean visivel) {
-        super(nome, imagem, visivel);
+    public ArmadilhaAleatoria(String nome, ImageIcon imagem) {
+        super(nome, imagem);
     }
 
     @Override

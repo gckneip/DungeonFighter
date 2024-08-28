@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public class Guerreiro extends Heroi {
 
     public Guerreiro() {
-        super(30, 10, 5, "Guerreiro", new ImageIcon("assets/guerreiro.png"), true);
+        super(30, 10, 5, "Guerreiro", new ImageIcon("assets/guerreiro.png"));
     }
 
     @Override
